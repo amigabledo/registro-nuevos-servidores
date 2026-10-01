@@ -27,9 +27,6 @@ export const Home: React.FC = () => {
               <span className="text-sm font-bold text-slate-900 block leading-tight">
                 Nuevos servidores
               </span>
-              <span className="text-xs text-slate-500 block leading-tight">
-                Iglesia cristiana
-              </span>
             </div>
           </div>
 
@@ -65,8 +62,9 @@ export const Home: React.FC = () => {
       </main>
 
       {/* Pie de página */}
-      <footer className="border-t border-slate-200 bg-white py-6 text-center text-xs text-slate-500">
-        <p>Registro de nuevos servidores. Todos los derechos reservados.</p>
+      <footer className="border-t border-slate-200 bg-white py-6 text-center text-xs text-slate-500 space-y-1">
+        <p>Registro de nuevos servidores</p>
+        <p>Ministerio Internacional Monte de Dios</p>
       </footer>
     </div>
   );

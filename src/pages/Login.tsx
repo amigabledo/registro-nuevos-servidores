@@ -83,7 +83,7 @@ export const Login: React.FC = () => {
             <h1 className="text-xl font-bold text-slate-900 tracking-tight text-center">
               Registro de nuevos servidores
             </h1>
-            <p className="text-xs text-slate-500 mt-1">Acceso para servidores y administradores</p>
+            <p className="text-xs text-slate-500 mt-1">Acceso para servidores</p>
           </div>
 
           <div className="h-px bg-gradient-to-r from-transparent via-slate-200 to-transparent mb-6" />
@@ -97,14 +97,13 @@ export const Login: React.FC = () => {
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="space-y-1">
               <label htmlFor="username" className="block text-xs font-medium text-slate-700">
-                Usuario o correo
+                Usuario
               </label>
               <input
                 id="username"
                 type="text"
                 required
                 autoComplete="username"
-                placeholder="marcos, cicatrices o servidor"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
                 className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 placeholder-slate-400 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500 transition-all"

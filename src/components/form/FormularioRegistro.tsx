@@ -162,24 +162,22 @@ export const FormularioRegistro: React.FC = () => {
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
           {[
-            { id: 'ujieres', label: 'Ujieres', desc: 'Atención y bienvenida a la congregación' },
-            { id: 'seguridad', label: 'Seguridad', desc: 'Orden y resguardo de las instalaciones' },
-            { id: 'escuela_dominical', label: 'Escuela dominical', desc: 'Enseñanza y cuidado de niños' },
+            { id: 'ujieres', label: 'Ujieres' },
+            { id: 'seguridad', label: 'Seguridad' },
+            { id: 'escuela_dominical', label: 'Escuela dominical' },
           ].map((area) => (
-            <label
+            <button
+              type="button"
               key={area.id}
               onClick={() => handleChange('area_servicio', area.id)}
-              className={`p-3.5 rounded-xl border cursor-pointer transition-all flex flex-col justify-between ${
+              className={`py-3 px-4 rounded-xl border text-center transition-all ${
                 formData.area_servicio === area.id
                   ? 'border-blue-600 bg-blue-50/70 shadow-sm ring-1 ring-blue-600'
                   : 'border-slate-200 bg-slate-50 hover:bg-slate-100'
               }`}
             >
-              <div>
-                <p className="text-sm font-semibold text-slate-900">{area.label}</p>
-                <p className="text-xs text-slate-500 mt-1 leading-snug">{area.desc}</p>
-              </div>
-            </label>
+              <span className="text-sm font-semibold text-slate-900">{area.label}</span>
+            </button>
           ))}
         </div>
       </div>

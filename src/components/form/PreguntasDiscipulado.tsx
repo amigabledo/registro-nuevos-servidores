@@ -12,7 +12,7 @@ export const PreguntasDiscipulado: React.FC<Props> = ({ formData, onChange }) =>
       {/* Escuela de nuevos creyentes */}
       <div className="space-y-2">
         <label className="block text-sm font-medium text-slate-700">
-          ¿Realizó la escuela de nuevos creyentes?
+          ¿Realizó la escuela de nuevos creyentes? <span className="text-red-500">*</span>
         </label>
         <div className="grid grid-cols-3 gap-2">
           {(['si', 'cursando', 'no'] as const).map((opt) => (
@@ -35,7 +35,7 @@ export const PreguntasDiscipulado: React.FC<Props> = ({ formData, onChange }) =>
       {/* Bautizado */}
       <div className="space-y-3">
         <label className="block text-sm font-medium text-slate-700">
-          ¿Está bautizado en aguas?
+          ¿Está bautizado en aguas? <span className="text-red-500">*</span>
         </label>
         <div className="grid grid-cols-2 gap-2">
           {(['si', 'no'] as const).map((opt) => (
@@ -56,11 +56,12 @@ export const PreguntasDiscipulado: React.FC<Props> = ({ formData, onChange }) =>
         {formData.bautizado === 'si' && (
           <div className="pt-1">
             <label htmlFor="fecha_bautismo" className="block text-xs font-medium text-slate-600 mb-1">
-              Fecha de bautismo (aproximada si no recuerda el día exacto)
+              Fecha de bautismo (aproximada si no recuerda el día exacto) <span className="text-red-500">*</span>
             </label>
             <input
               id="fecha_bautismo"
               type="date"
+              required
               value={formData.fecha_bautismo}
               onChange={(e) => onChange('fecha_bautismo', e.target.value)}
               className="w-full px-4 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500"
@@ -72,7 +73,7 @@ export const PreguntasDiscipulado: React.FC<Props> = ({ formData, onChange }) =>
       {/* Retiro de liberación */}
       <div className="space-y-3">
         <label className="block text-sm font-medium text-slate-700">
-          ¿Fue al retiro de liberación?
+          ¿Fue al retiro de liberación? <span className="text-red-500">*</span>
         </label>
         <div className="grid grid-cols-2 gap-2">
           {(['si', 'no'] as const).map((opt) => (
@@ -93,11 +94,12 @@ export const PreguntasDiscipulado: React.FC<Props> = ({ formData, onChange }) =>
         {formData.retiro_liberacion === 'si' && (
           <div className="pt-1">
             <label htmlFor="fecha_retiro" className="block text-xs font-medium text-slate-600 mb-1">
-              Fecha de retiro
+              Fecha de retiro (aproximada si no recuerda el día exacto) <span className="text-red-500">*</span>
             </label>
             <input
               id="fecha_retiro"
               type="date"
+              required
               value={formData.fecha_retiro}
               onChange={(e) => onChange('fecha_retiro', e.target.value)}
               className="w-full px-4 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500"
@@ -109,7 +111,7 @@ export const PreguntasDiscipulado: React.FC<Props> = ({ formData, onChange }) =>
       {/* Mentor */}
       <div className="space-y-3">
         <label className="block text-sm font-medium text-slate-700">
-          ¿Tiene mentor actualmente?
+          ¿Tiene mentor actualmente? <span className="text-red-500">*</span>
         </label>
         <div className="grid grid-cols-2 gap-2">
           {(['si', 'no'] as const).map((opt) => (
@@ -130,11 +132,12 @@ export const PreguntasDiscipulado: React.FC<Props> = ({ formData, onChange }) =>
         {formData.tiene_mentor === 'si' && (
           <div className="pt-1">
             <label htmlFor="nombre_mentor" className="block text-xs font-medium text-slate-600 mb-1">
-              Nombre de su mentor
+              Nombre de su mentor <span className="text-red-500">*</span>
             </label>
             <input
               id="nombre_mentor"
               type="text"
+              required
               placeholder="Nombre del mentor"
               value={formData.nombre_mentor}
               onChange={(e) => onChange('nombre_mentor', e.target.value)}
@@ -147,7 +150,7 @@ export const PreguntasDiscipulado: React.FC<Props> = ({ formData, onChange }) =>
       {/* Casa de paz */}
       <div className="space-y-2">
         <label className="block text-sm font-medium text-slate-700">
-          ¿Asiste a una casa de paz?
+          ¿Asiste a una casa de paz? <span className="text-red-500">*</span>
         </label>
         <div className="grid grid-cols-2 gap-2">
           {(['si', 'no'] as const).map((opt) => (

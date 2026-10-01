@@ -37,8 +37,28 @@ export const FormularioRegistro: React.FC = () => {
     e.preventDefault();
     setErrorMessage(null);
 
-    if (!formData.nombre.trim() || !formData.apellido.trim() || !formData.telefono.trim()) {
-      setErrorMessage('Por favor complete su nombre, apellido y teléfono');
+    if (
+      !formData.nombre.trim() ||
+      !formData.apellido.trim() ||
+      !formData.telefono.trim() ||
+      !formData.correo.trim()
+    ) {
+      setErrorMessage('Por favor complete todos sus datos personales obligatorios');
+      return;
+    }
+
+    if (formData.bautizado === 'si' && !formData.fecha_bautismo) {
+      setErrorMessage('Por favor ingrese la fecha de su bautismo');
+      return;
+    }
+
+    if (formData.retiro_liberacion === 'si' && !formData.fecha_retiro) {
+      setErrorMessage('Por favor ingrese la fecha de su retiro de liberación');
+      return;
+    }
+
+    if (formData.tiene_mentor === 'si' && !formData.nombre_mentor.trim()) {
+      setErrorMessage('Por favor ingrese el nombre de su mentor');
       return;
     }
 
@@ -89,7 +109,7 @@ export const FormularioRegistro: React.FC = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
             <label htmlFor="nombre" className="block text-sm font-medium text-slate-700 mb-1">
-              Nombre
+              Nombre <span className="text-red-500">*</span>
             </label>
             <input
               id="nombre"
@@ -104,7 +124,7 @@ export const FormularioRegistro: React.FC = () => {
 
           <div>
             <label htmlFor="apellido" className="block text-sm font-medium text-slate-700 mb-1">
-              Apellido
+              Apellido <span className="text-red-500">*</span>
             </label>
             <input
               id="apellido"
@@ -121,7 +141,7 @@ export const FormularioRegistro: React.FC = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
             <label htmlFor="telefono" className="block text-sm font-medium text-slate-700 mb-1">
-              Teléfono o WhatsApp
+              Teléfono o WhatsApp <span className="text-red-500">*</span>
             </label>
             <input
               id="telefono"
@@ -136,11 +156,12 @@ export const FormularioRegistro: React.FC = () => {
 
           <div>
             <label htmlFor="correo" className="block text-sm font-medium text-slate-700 mb-1">
-              Correo electrónico (opcional)
+              Correo electrónico <span className="text-red-500">*</span>
             </label>
             <input
               id="correo"
               type="email"
+              required
               placeholder="ejemplo@correo.com"
               value={formData.correo}
               onChange={(e) => handleChange('correo', e.target.value)}
@@ -158,7 +179,7 @@ export const FormularioRegistro: React.FC = () => {
       {/* Área ministerial deseada */}
       <div className="space-y-3 pt-2">
         <h2 className="text-base font-semibold text-slate-800 pb-1 border-b border-slate-100">
-          Área en que desea servir
+          Área en que desea servir <span className="text-red-500">*</span>
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
           {[

@@ -138,10 +138,10 @@ export const ModuloQr: React.FC = () => {
 
             <div className="space-y-1">
               <h2 className="text-3xl font-extrabold tracking-tight">
-                Únete al equipo de servidores
+                Únase al equipo de servidores
               </h2>
               <p className="text-slate-400 text-sm">
-                Escanea el código con tu celular para registrarte
+                Escanee el código con su celular para registrarse
               </p>
             </div>
 

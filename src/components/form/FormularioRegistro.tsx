@@ -38,12 +38,12 @@ export const FormularioRegistro: React.FC = () => {
     setErrorMessage(null);
 
     if (!formData.nombre.trim() || !formData.apellido.trim() || !formData.telefono.trim()) {
-      setErrorMessage('Por favor completa tu nombre, apellido y teléfono');
+      setErrorMessage('Por favor complete su nombre, apellido y teléfono');
       return;
     }
 
     if (!formData.area_servicio) {
-      setErrorMessage('Por favor selecciona el área en que deseas servir');
+      setErrorMessage('Por favor seleccione el área en que desea servir');
       return;
     }
 
@@ -95,7 +95,7 @@ export const FormularioRegistro: React.FC = () => {
               id="nombre"
               type="text"
               required
-              placeholder="Tu nombre"
+              placeholder="Su nombre"
               value={formData.nombre}
               onChange={(e) => handleChange('nombre', e.target.value)}
               className="w-full px-4 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500"
@@ -110,7 +110,7 @@ export const FormularioRegistro: React.FC = () => {
               id="apellido"
               type="text"
               required
-              placeholder="Tu apellido"
+              placeholder="Su apellido"
               value={formData.apellido}
               onChange={(e) => handleChange('apellido', e.target.value)}
               className="w-full px-4 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500"
@@ -150,11 +150,8 @@ export const FormularioRegistro: React.FC = () => {
         </div>
       </div>
 
-      {/* Trayectoria de discipulado */}
+      {/* Preguntas de discipulado sin encabezado de trayectoria */}
       <div className="space-y-4 pt-2">
-        <h2 className="text-base font-semibold text-slate-800 pb-1 border-b border-slate-100">
-          Trayectoria en la iglesia
-        </h2>
         <PreguntasDiscipulado formData={formData} onChange={handleChange} />
       </div>
 

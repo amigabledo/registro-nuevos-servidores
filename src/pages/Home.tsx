@@ -54,7 +54,7 @@ export const Home: React.FC = () => {
             Registro para nuevos servidores
           </h1>
           <p className="text-slate-600 text-sm max-w-lg mx-auto leading-relaxed">
-            Completa tus datos personales y trayectoria en la iglesia para integrarte a los diferentes equipos ministeriales.
+            Aquí puede completar sus datos personales para integrarse a los diferentes ministerios.
           </p>
         </div>
 

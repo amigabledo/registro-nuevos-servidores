@@ -1,0 +1,34 @@
+name: Backup Supabase Storage to R2
+
+on:
+  # Desactivado por defecto en la plantilla base. Descomentar al conectar Supabase Storage y Cloudflare R2.
+  # schedule:
+  #   - cron: '0 5 * * *' # Corre todos los días a las 05:00 AM UTC (01:00 AM RD)
+  workflow_dispatch:
+
+jobs:
+  backup:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout del código
+        uses: actions/checkout@v4
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Instalar dependencias necesarias
+        run: npm install @supabase/supabase-js @aws-sdk/client-s3 @aws-sdk/lib-storage --no-save --no-audit --no-fund
+
+      - name: Ejecutar script de sincronización de Storage
+        env:
+          SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+          R2_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+          R2_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+          R2_ENDPOINT_URL: ${{ secrets.R2_ENDPOINT_URL }}
+          R2_STORAGE_BUCKET: ${{ secrets.R2_STORAGE_BUCKET }}
+        run: |
+          echo "Iniciando respaldo de Storage..."
+          node scripts/backup_storage.js

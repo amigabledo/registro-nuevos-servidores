@@ -1,0 +1,7 @@
+User-agent: *
+Disallow: /admin
+Disallow: /admin/
+Disallow: /panel
+Disallow: /panel/
+
+Sitemap: https://registro-nuevos-servidores.pages.dev/sitemap.xml

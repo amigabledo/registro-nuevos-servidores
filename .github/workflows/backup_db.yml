@@ -1,0 +1,41 @@
+name: Backup Supabase to R2
+
+on:
+  # Desactivado por defecto en la plantilla base. Descomentar al conectar la base de datos y Cloudflare R2.
+  # schedule:
+  #   - cron: '0 4 * * *' # Corre todos los días a las 04:00 AM UTC (12:00 AM medianoche RD)
+  workflow_dispatch:
+
+jobs:
+  backup:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Instalar herramientas de PostgreSQL y AWS CLI
+        run: |
+          sudo apt-get update -y
+          sudo apt-get install -y postgresql-client awscli
+
+      - name: Generar volcado de base de datos
+        env:
+          DB_CONNECTION_STRING: ${{ secrets.DB_CONNECTION_STRING }}
+        run: |
+          mkdir -p /tmp/backups
+          BACKUP_FILE="db_backup_$(date +'%Y%m%d_%H%M%S').sql.gz"
+          echo "FILEPATH=/tmp/backups/$BACKUP_FILE" >> $GITHUB_ENV
+          echo "Generando dump comprimido..."
+          pg_dump "$DB_CONNECTION_STRING" --no-owner --no-privileges | gzip > "/tmp/backups/$BACKUP_FILE"
+
+      - name: Subir backup a Cloudflare R2
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+          R2_ENDPOINT_URL: ${{ secrets.R2_ENDPOINT_URL }}
+          R2_BUCKET: ${{ secrets.R2_STORAGE_BUCKET }}
+        run: |
+          echo "Subiendo a Cloudflare R2..."
+          aws s3 cp "$FILEPATH" "s3://$R2_BUCKET/database/$(basename $FILEPATH)" --endpoint-url "$R2_ENDPOINT_URL"
+          echo "Respaldo completado con éxito."
+
+      - name: Limpiar archivo temporal
+        if: always()
+        run: rm -f "$FILEPATH"

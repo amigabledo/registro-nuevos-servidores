@@ -1,0 +1,39 @@
+name: Database Health Advisor
+
+on:
+  # Desactivado por defecto en la plantilla base. Descomentar al conectar la base de datos de Supabase.
+  # schedule:
+  #   - cron: '0 8 * * 1' # Cada lunes a las 8 AM UTC
+  workflow_dispatch:
+
+jobs:
+  analyze-db:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      issues: write
+    steps:
+      - name: Checkout del repositorio
+        uses: actions/checkout@v4
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Instalar dependencias del script
+        run: npm install pg --no-save --no-audit --no-fund
+
+      - name: Ejecutar DB Advisor
+        id: advisor
+        env:
+          DB_CONNECTION_STRING: ${{ secrets.DB_CONNECTION_STRING }}
+        run: node scripts/db-advisor.js
+
+      - name: Crear issue si se detectan problemas
+        if: steps.advisor.outputs.has_issues == 'true'
+        uses: peter-evans/create-issue-from-file@v5
+        with:
+          title: "Alerta de rendimiento: base de datos"
+          content-filepath: ./db-report.md
+          labels: performance, database

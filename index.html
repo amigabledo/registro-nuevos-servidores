@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Registro de nuevos servidores | Iglesia</title>
+    <meta name="description" content="Formulario de registro y convocatoria para nuevos servidores de la iglesia." />
+
+    <!-- Metadatos de Open Graph / WhatsApp / redes sociales -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Registro de nuevos servidores" />
+    <meta property="og:url" content="https://registro-nuevos-servidores.pages.dev/" />
+    <meta property="og:title" content="Registro de nuevos servidores | Iglesia" />
+    <meta
+      property="og:description"
+      content="Formulario de registro y convocatoria para nuevos servidores de la iglesia."
+    />
+    <meta property="og:image" content="https://registro-nuevos-servidores.pages.dev/assets/branding/og-preview.png" />
+    <meta property="og:image:secure_url" content="https://registro-nuevos-servidores.pages.dev/assets/branding/og-preview.png" />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Registro de nuevos servidores — Previsualización oficial" />
+    <meta property="og:locale" content="es_DO" />
+
+    <!-- Twitter / X -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Registro de nuevos servidores | Iglesia" />
+    <meta
+      name="twitter:description"
+      content="Formulario de registro y convocatoria para nuevos servidores de la iglesia."
+    />
+    <meta name="twitter:image" content="https://registro-nuevos-servidores.pages.dev/assets/branding/og-preview.png" />
+
+    <!-- Favicons de alta legibilidad para pestañas claras y oscuras -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+
+    <script>
+      (function() {
+        // Exclusión de telemetría en rutas administrativas (/admin/*, /dashboard/*)
+        if (navigator.sendBeacon) {
+          var origSendBeacon = navigator.sendBeacon;
+          navigator.sendBeacon = function(url) {
+            var path = window.location.pathname;
+            if (typeof url === 'string' && url.indexOf('cloudflareinsights') > -1 && (path.indexOf('/admin') === 0 || path.indexOf('/dashboard') === 0)) {
+              return true;
+            }
+            return origSendBeacon.apply(navigator, arguments);
+          };
+        }
+
+        // Configuración reactiva de Cloudflare Web Analytics con soporte SPA
+        var cfObserver = new MutationObserver(function() {
+          var scripts = document.getElementsByTagName('script');
+          for (var i = 0; i < scripts.length; i++) {
+            var s = scripts[i];
+            if (s.src && s.src.indexOf('beacon.min.js') > -1 && s.getAttribute('data-cf-beacon')) {
+              try {
+                var beaconData = JSON.parse(s.getAttribute('data-cf-beacon'));
+                if (!beaconData.spa) {
+                  beaconData.spa = true;
+                  s.setAttribute('data-cf-beacon', JSON.stringify(beaconData));
+                }
+              } catch (_) {}
+              cfObserver.disconnect();
+              break;
+            }
+          }
+        });
+        cfObserver.observe(document.documentElement, { childList: true, subtree: true });
+      })();
+    </script>
+  </head>
+  <body class="bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-100 antialiased min-h-screen">
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

@@ -1,0 +1,31 @@
+name: Supabase Keep Alive
+
+on:
+  # Desactivado por defecto en la plantilla base. Descomentar al conectar un proyecto de Supabase.
+  # schedule:
+  #   - cron: '0 12 * * *' # Corre todos los días a las 12:00 UTC (8:00 AM hora República Dominicana)
+  workflow_dispatch:
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping a Supabase REST API
+        run: |
+          if [ -z "$VITE_SUPABASE_URL" ] || [ -z "$VITE_SUPABASE_ANON_KEY" ]; then
+            echo "Supabase no está configurado (faltan variables o secretos). Omitiendo ping."
+            exit 0
+          fi
+          echo "Realizando solicitud de salud para prevenir pausado por inactividad..."
+          HTTP_STATUS=$(curl -s -o /dev/null -w "%{http_code}" -X GET "$VITE_SUPABASE_URL/rest/v1/" \
+            -H "apikey: $VITE_SUPABASE_ANON_KEY" \
+            -H "Authorization: Bearer $VITE_SUPABASE_ANON_KEY")
+          echo "Código HTTP recibido: $HTTP_STATUS"
+          if [ "$HTTP_STATUS" -ge 500 ] || [ "$HTTP_STATUS" -eq 000 ]; then
+            echo "Error: ping falló con código $HTTP_STATUS."
+            exit 1
+          fi
+          echo "Ping exitoso. Base de datos activa."
+        env:
+          VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
+          VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY }}

@@ -1,0 +1,13 @@
+-- ============================================================================
+-- Usuarios iniciales del sistema (Administradores y Servidores)
+-- ============================================================================
+-- Nota: Puedes ejecutar este script en el SQL Editor de Supabase para
+-- aprovisionar a los administradores (marcos, cicatrices) y los dos servidores.
+-- Si prefieres crearlos desde el panel Auth de Supabase con email/password,
+-- el trigger on_auth_user_created los asignará automáticamente a public.profiles.
+
+-- Para asignación directa de roles a los perfiles tras crearlos en Supabase Auth:
+-- UPDATE public.profiles SET role = 'admin', full_name = 'Marcos' WHERE username = 'marcos' OR email ILIKE 'marcos%';
+-- UPDATE public.profiles SET role = 'admin', full_name = 'Cicatrices' WHERE username = 'cicatrices' OR email ILIKE 'cicatrices%';
+-- UPDATE public.profiles SET role = 'servidor', full_name = 'Servidor 1' WHERE username = 'servidor1' OR email ILIKE 'servidor1%';
+-- UPDATE public.profiles SET role = 'servidor', full_name = 'Servidor 2' WHERE username = 'servidor2' OR email ILIKE 'servidor2%';

@@ -89,37 +89,42 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const signIn = async (identifier: string, password: string) => {
     const cleanId = identifier.trim().toLowerCase();
-    const finalEmail = cleanId.includes('@') ? cleanId : `${cleanId}@servidores.iglesia.com`;
+    const candidateEmails = cleanId.includes('@')
+      ? [cleanId]
+      : [`${cleanId}@merch.com`, `${cleanId}@servidores.iglesia.com`];
 
-    // Intentar inicio de sesión en Supabase si está disponible
-    try {
-      const { data, error } = await supabase.auth.signInWithPassword({
-        email: finalEmail,
-        password,
-      });
+    // Intentar inicio de sesión en Supabase con los candidatos
+    for (const email of candidateEmails) {
+      try {
+        const { data, error } = await supabase.auth.signInWithPassword({
+          email,
+          password,
+        });
 
-      if (!error && data.user) {
-        localStorage.removeItem('servidores_demo_auth');
-        return { error: null };
+        if (!error && data.user) {
+          localStorage.removeItem('servidores_demo_auth');
+          return { error: null };
+        }
+      } catch {
+        // Continuar siguiente intento
       }
-    } catch {
-      // Continuar con verificación demo si Supabase no está conectado
     }
 
     // Fallback de demostración para los usuarios requeridos
     const demoUser = DEMO_USERS[cleanId] || (cleanId.includes('@') && DEMO_USERS[cleanId.split('@')[0]]);
     if (demoUser) {
+      const demoEmail = candidateEmails[0];
       const demoProfile: Profile = {
         id: `demo-${cleanId}`,
         username: cleanId,
         full_name: demoUser.fullName,
-        email: finalEmail,
+        email: demoEmail,
         role: demoUser.role,
         created_at: new Date().toISOString(),
         updated_at: new Date().toISOString(),
       };
       setProfile(demoProfile);
-      setUser({ id: demoProfile.id, email: finalEmail } as User);
+      setUser({ id: demoProfile.id, email: demoEmail } as User);
       localStorage.setItem('servidores_demo_auth', JSON.stringify(demoProfile));
       return { error: null };
     }

@@ -26,19 +26,27 @@ export const RegistroExitoso: React.FC<Props> = ({ nombre, onNuevoRegistro }) =>
         <CheckCircle2 className="w-10 h-10" />
       </div>
 
-      <div className="space-y-2">
-        <h2 className="text-2xl font-bold text-slate-900">
-          Registro completado con éxito
+      <div className="space-y-3">
+        <h2 className="text-2xl font-bold text-slate-900 leading-tight">
+          Registro completado
+          <br />
+          con éxito
         </h2>
         <p className="text-slate-600 max-w-md mx-auto text-sm leading-relaxed">
-          Muchas gracias, {nombre}. Su información ha sido recibida correctamente por el equipo de servidores de la iglesia.
+          Muchas gracias, {nombre?.trim()}
+          <br />
+          Su información ha sido recibida
+          <br />
+          correctamente por el equipo
+          <br />
+          de servidores de la iglesia.
         </p>
       </div>
 
       <div className="bg-blue-50 border border-blue-100 rounded-2xl p-4 max-w-md mx-auto text-left">
         <p className="text-xs text-blue-900 font-medium">Próximos pasos</p>
         <p className="text-xs text-blue-700 mt-1 leading-relaxed">
-          Los líderes del área seleccionada se pondrán en contacto con usted mediante llamada o WhatsApp para coordinar la inducción y el inicio de su servicio.
+          Los líderes del área seleccionada se pondrán en contacto con usted mediante llamada o WhatsApp para coordinar.
         </p>
       </div>
 

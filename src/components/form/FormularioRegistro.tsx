@@ -14,9 +14,9 @@ const INITIAL_FORM: FormularioRegistroData = {
   escuela_nuevos_creyentes: 'si',
   bautizado: 'si',
   fecha_bautismo: '',
-  retiro_liberacion: 'no',
+  retiro_liberacion: 'si',
   fecha_retiro: '',
-  tiene_mentor: 'no',
+  tiene_mentor: 'si',
   nombre_mentor: '',
   asiste_casa_paz: 'si',
   area_servicio: '',
@@ -69,7 +69,7 @@ export const FormularioRegistro: React.FC = () => {
   };
 
   if (isCompleted) {
-    return <RegistroExitoso nombre={formData.nombre} onNuevoRegistro={handleNuevoRegistro} />;
+    return <RegistroExitoso nombre={formData.nombre.trim()} onNuevoRegistro={handleNuevoRegistro} />;
   }
 
   return (

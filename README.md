@@ -91,3 +91,6 @@ El flujo definitivo de despliegue para este proyecto es:
 - **Credenciales de acceso**:
   - Administradores: `marcos` y `cicatrices`.
   - Servidores: `servidor1` y `servidor2`.
+- **Formulario y pantalla de confirmación**:
+  - Todas las preguntas de discipulado (escuela, bautismo, retiro, mentor, casa de paz) ahora marcan **Sí** por defecto.
+  - Distribución exacta de saltos de línea y mensajes en la pantalla de registro completado con éxito.

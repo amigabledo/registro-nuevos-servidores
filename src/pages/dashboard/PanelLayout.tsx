@@ -71,10 +71,10 @@ export const PanelLayout: React.FC = () => {
             </div>
             <div>
               <span className="text-sm font-bold text-slate-900 block leading-tight">
-                Panel de gestión
+                Monte de Dios
               </span>
               <span className="text-xs text-slate-500 block leading-tight">
-                Registro de nuevos servidores
+                Panel de gestión de servidores
               </span>
             </div>
           </div>

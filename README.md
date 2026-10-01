@@ -76,5 +76,18 @@ El flujo definitivo de despliegue para este proyecto es:
    ```
 4. Desplegar en Cloudflare Pages:
    ```bash
-   npx wrangler pages deploy dist --project-name=registro-nuevos-servidores
+   npx wrangler pages deploy dist --project-name=registro-nuevos-servidores --branch=main
    ```
+
+---
+
+## 4. Historial reciente de actualizaciones
+
+- **Identidad de marca y cabecera institucional**:
+  - Integración visual destacada del nombre oficial **Monte de Dios** en la cabecera superior y en el inicio de sesión.
+  - Subtítulo formal "Nuevos servidores" manteniendo equilibrio estético y legibilidad tanto en móviles como en computadoras.
+- **Tarjeta Open Graph y WhatsApp**:
+  - Generación de la tarjeta oficial de previsualización en `public/assets/branding/og-preview.png` en resolución exacta de 1200 x 630 px con fondo de alto contraste, isotipo en tarjeta redondeada y tipografía clara para enlaces compartidos en WhatsApp y redes sociales.
+- **Credenciales de acceso**:
+  - Administradores: `marcos` y `cicatrices`.
+  - Servidores: `servidor1` y `servidor2`.

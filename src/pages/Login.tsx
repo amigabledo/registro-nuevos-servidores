@@ -81,7 +81,7 @@ export const Login: React.FC = () => {
               </picture>
             </div>
             <h1 className="text-xl font-bold text-slate-900 tracking-tight text-center">
-              Registro de nuevos servidores
+              Monte de Dios
             </h1>
             <p className="text-xs text-slate-500 mt-1">Acceso para servidores</p>
           </div>

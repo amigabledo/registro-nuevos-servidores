@@ -21,7 +21,7 @@ Plataforma web de registro y gestión de postulantes para nuevos servidores de l
   - Pantalla de confirmación amigable con animación de celebración y opción de registrar a otra persona.
 - **Acceso seguro y roles de usuario**:
   - Interfaz de inicio de sesión inspirada en la plataforma institucional con soporte para recordar credenciales.
-  - Administradores iniciales: Marcos y cicatrices.
+  - Administradores iniciales: Marcos y Katherine Ramos (kramos).
   - Servidores operativos: servidor1 y servidor2.
   - Soporte para nombres de usuario directos sin necesidad de escribir el dominio de correo.
 - **Panel de control y gestión de datos**:
@@ -89,7 +89,7 @@ El flujo definitivo de despliegue para este proyecto es:
 - **Tarjeta Open Graph y WhatsApp**:
   - Generación de la tarjeta oficial de previsualización en `public/assets/branding/og-preview.png` en resolución exacta de 1200 x 630 px con fondo de alto contraste, isotipo en tarjeta redondeada y tipografía clara para enlaces compartidos en WhatsApp y redes sociales.
 - **Credenciales de acceso**:
-  - Administradores: `marcos` y `cicatrices`.
+  - Administradores: `marcos` y `kramos`.
   - Servidores: `servidor1` y `servidor2`.
 - **Formulario y pantalla de confirmación**:
   - Todas las preguntas de discipulado (escuela, bautismo, retiro, mentor, casa de paz) ahora marcan **Sí** por defecto.

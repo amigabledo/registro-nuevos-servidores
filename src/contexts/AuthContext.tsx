@@ -19,7 +19,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 const DEMO_USERS: Record<string, { role: UserRole; fullName: string }> = {
   marcos: { role: 'admin', fullName: 'Marcos' },
-  cicatrices: { role: 'admin', fullName: 'Cicatrices' },
+  kramos: { role: 'admin', fullName: 'Katherine Ramos' },
   servidor1: { role: 'servidor', fullName: 'Servidor 1' },
   servidor2: { role: 'servidor', fullName: 'Servidor 2' },
 };

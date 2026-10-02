@@ -12,7 +12,7 @@ interface UsuarioItem {
 
 const INITIAL_TEAM: UsuarioItem[] = [
   { id: '1', username: 'marcos', fullName: 'Marcos', role: 'admin', email: 'marcos@servidores.iglesia.com' },
-  { id: '2', username: 'cicatrices', fullName: 'Cicatrices', role: 'admin', email: 'cicatrices@servidores.iglesia.com' },
+  { id: '2', username: 'kramos', fullName: 'Katherine Ramos', role: 'admin', email: 'kramos@servidores.iglesia.com' },
   { id: '3', username: 'servidor1', fullName: 'Servidor 1', role: 'servidor', email: 'servidor1@servidores.iglesia.com' },
   { id: '4', username: 'servidor2', fullName: 'Servidor 2', role: 'servidor', email: 'servidor2@servidores.iglesia.com' },
 ];

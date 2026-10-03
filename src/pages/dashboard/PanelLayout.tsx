@@ -71,7 +71,7 @@ export const PanelLayout: React.FC = () => {
             </div>
             <div>
               <span className="text-sm font-bold text-slate-900 block leading-tight">
-                Monte de Dios
+                Ministerio Internacional Monte de Dios
               </span>
               <span className="text-xs text-slate-500 block leading-tight">
                 Panel de gestión de servidores
@@ -117,26 +117,26 @@ export const PanelLayout: React.FC = () => {
 
       {/* Contenido principal con pestañas */}
       <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 py-6 space-y-6">
-        {/* Selector de pestañas */}
-        <div className="flex items-center justify-between flex-wrap gap-2 border-b border-slate-200 pb-2">
-          <div className="flex items-center gap-1">
+        {/* Selector de pestañas adaptable */}
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-200 pb-3">
+          <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar py-1">
             <button
               type="button"
               onClick={() => setActiveTab('registros')}
-              className={`px-4 py-2 rounded-xl text-xs font-semibold transition-all flex items-center gap-2 ${
+              className={`px-3.5 py-2 rounded-xl text-xs font-semibold transition-all flex items-center gap-2 whitespace-nowrap shrink-0 ${
                 activeTab === 'registros'
                   ? 'bg-blue-600 text-white shadow-xs'
                   : 'text-slate-600 hover:bg-slate-200/60'
               }`}
             >
               <Users className="w-3.5 h-3.5" />
-              <span>Postulantes y registros ({servidores.length})</span>
+              <span>Postulantes ({servidores.length})</span>
             </button>
 
             <button
               type="button"
               onClick={() => setActiveTab('qr')}
-              className={`px-4 py-2 rounded-xl text-xs font-semibold transition-all flex items-center gap-2 ${
+              className={`px-3.5 py-2 rounded-xl text-xs font-semibold transition-all flex items-center gap-2 whitespace-nowrap shrink-0 ${
                 activeTab === 'qr'
                   ? 'bg-blue-600 text-white shadow-xs'
                   : 'text-slate-600 hover:bg-slate-200/60'
@@ -150,7 +150,7 @@ export const PanelLayout: React.FC = () => {
               <button
                 type="button"
                 onClick={() => setActiveTab('usuarios')}
-                className={`px-4 py-2 rounded-xl text-xs font-semibold transition-all flex items-center gap-2 ${
+                className={`px-3.5 py-2 rounded-xl text-xs font-semibold transition-all flex items-center gap-2 whitespace-nowrap shrink-0 ${
                   activeTab === 'usuarios'
                     ? 'bg-blue-600 text-white shadow-xs'
                     : 'text-slate-600 hover:bg-slate-200/60'
@@ -162,7 +162,7 @@ export const PanelLayout: React.FC = () => {
             )}
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center justify-between sm:justify-end gap-2 pt-1 sm:pt-0">
             <button
               type="button"
               onClick={loadData}

@@ -63,15 +63,24 @@ export const DetalleServidorModal: React.FC<Props> = ({ servidor, onClose, onUpd
             <h3 className="text-xs font-bold text-slate-500 uppercase tracking-wider">
               Información de contacto
             </h3>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-slate-700">
-              <div className="flex items-center gap-2 p-2.5 rounded-xl bg-slate-50 border border-slate-100">
-                <Phone className="w-4 h-4 text-slate-400" />
-                <span className="font-medium">{servidor.telefono}</span>
+            <div className="flex items-center justify-between p-3 rounded-xl bg-slate-50 border border-slate-100 text-slate-700">
+              <div className="flex items-center gap-2.5">
+                <div className="p-2 rounded-lg bg-blue-50 text-blue-600">
+                  <Phone className="w-4 h-4" />
+                </div>
+                <div>
+                  <span className="text-[10px] text-slate-400 font-semibold block uppercase">Teléfono</span>
+                  <span className="font-bold text-slate-900 text-sm">{servidor.telefono}</span>
+                </div>
               </div>
-              <div className="flex items-center gap-2 p-2.5 rounded-xl bg-slate-50 border border-slate-100">
-                <Mail className="w-4 h-4 text-slate-400" />
-                <span className="truncate">{servidor.correo || 'Sin correo registrado'}</span>
-              </div>
+              <a
+                href={`https://wa.me/1${servidor.telefono.replace(/\D/g, '')}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-emerald-50 text-emerald-700 border border-emerald-200 text-xs font-semibold hover:bg-emerald-100 transition-colors shadow-xs"
+              >
+                <span>WhatsApp</span>
+              </a>
             </div>
           </div>
 

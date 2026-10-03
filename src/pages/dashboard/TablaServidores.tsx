@@ -208,8 +208,7 @@ export const TablaServidores: React.FC<Props> = ({ servidores, onRefresh }) => {
                       </span>
                     </td>
                     <td className="py-3 px-4">
-                      <span className="font-medium text-slate-700 block">{s.telefono}</span>
-                      <span className="text-slate-400 block truncate max-w-[150px]">{s.correo || 'Sin correo'}</span>
+                      <span className="font-medium text-slate-800 block">{s.telefono}</span>
                     </td>
                     <td className="py-3 px-4">
                       <span className="font-medium text-slate-800">{formatArea(s.area_servicio)}</span>

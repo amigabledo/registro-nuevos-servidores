@@ -7,14 +7,13 @@ interface UsuarioItem {
   username: string;
   fullName: string;
   role: UserRole;
-  email: string;
 }
 
 const INITIAL_TEAM: UsuarioItem[] = [
-  { id: '1', username: 'marcos', fullName: 'Marcos', role: 'admin', email: 'marcos@servidores.iglesia.com' },
-  { id: '2', username: 'kramos', fullName: 'Katherine Ramos', role: 'admin', email: 'kramos@servidores.iglesia.com' },
-  { id: '3', username: 'servidor1', fullName: 'Servidor 1', role: 'servidor', email: 'servidor1@servidores.iglesia.com' },
-  { id: '4', username: 'servidor2', fullName: 'Servidor 2', role: 'servidor', email: 'servidor2@servidores.iglesia.com' },
+  { id: '1', username: 'marcos', fullName: 'Marcos', role: 'admin' },
+  { id: '2', username: 'kramos', fullName: 'Katherine Ramos', role: 'admin' },
+  { id: '3', username: 'servidor1', fullName: 'Servidor 1', role: 'servidor' },
+  { id: '4', username: 'servidor2', fullName: 'Servidor 2', role: 'servidor' },
 ];
 
 export const UsuariosManager: React.FC = () => {
@@ -22,7 +21,7 @@ export const UsuariosManager: React.FC = () => {
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 bg-white p-6 rounded-2xl border border-slate-200/80 shadow-xs">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 bg-white p-5 sm:p-6 rounded-2xl border border-slate-200/80 shadow-xs">
         <div>
           <h2 className="text-base font-bold text-slate-900">
             Cuentas del equipo y accesos
@@ -40,26 +39,32 @@ export const UsuariosManager: React.FC = () => {
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         {usuarios.map((u) => (
-          <div key={u.id} className="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-xs flex items-center justify-between">
-            <div className="flex items-center gap-3.5">
-              <div className={`w-10 h-10 rounded-xl flex items-center justify-center font-bold text-sm ${
-                u.role === 'admin' ? 'bg-amber-100 text-amber-800' : 'bg-blue-100 text-blue-800'
-              }`}>
+          <div
+            key={u.id}
+            className="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200/80 shadow-xs flex items-center justify-between gap-3"
+          >
+            <div className="flex items-center gap-3 min-w-0 flex-1">
+              <div
+                className={`w-10 h-10 rounded-xl flex items-center justify-center font-bold text-sm shrink-0 ${
+                  u.role === 'admin' ? 'bg-amber-100 text-amber-800' : 'bg-blue-100 text-blue-800'
+                }`}
+              >
                 {u.fullName.slice(0, 2).toUpperCase()}
               </div>
-              <div>
-                <p className="text-sm font-semibold text-slate-900">{u.fullName}</p>
-                <p className="text-xs text-slate-500">Usuario: @{u.username}</p>
-                <p className="text-[11px] text-slate-400 font-mono mt-0.5">{u.email}</p>
+              <div className="min-w-0 flex-1">
+                <p className="text-sm font-semibold text-slate-900 truncate">{u.fullName}</p>
+                <p className="text-xs text-slate-500 truncate">Usuario: @{u.username}</p>
               </div>
             </div>
 
-            <div className="text-right">
-              <span className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium border ${
-                u.role === 'admin'
-                  ? 'bg-amber-50 text-amber-700 border-amber-200'
-                  : 'bg-blue-50 text-blue-700 border-blue-200'
-              }`}>
+            <div className="shrink-0">
+              <span
+                className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold border ${
+                  u.role === 'admin'
+                    ? 'bg-amber-50 text-amber-700 border-amber-200'
+                    : 'bg-blue-50 text-blue-700 border-blue-200'
+                }`}
+              >
                 {u.role === 'admin' ? <Shield className="w-3 h-3" /> : <UserCheck className="w-3 h-3" />}
                 <span className="capitalize">{u.role}</span>
               </span>

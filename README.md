@@ -84,6 +84,9 @@ El flujo definitivo de despliegue para este proyecto es:
 ## 4. Historial reciente de actualizaciones
 
 - **03/10/2026**:
+  - Actualización del nombre a "Ministerio Internacional Monte de Dios" en la pantalla de inicio de sesión y en la cabecera del panel administrativo.
+  - Remoción de la visualización de correos electrónicos en la ficha de detalle de postulantes, tabla de registros y cuentas del equipo.
+  - Ajuste de etiquetas de roles y navegación de pestañas en vista móvil para evitar desbordes y cortes en pantallas de teléfonos.
   - Configuración de clave de acceso específica `kamos123` para la administradora `kramos`.
   - Botón de exportar CSV actualizado con icono de flecha hacia arriba.
   - Diseño responsivo dual en el panel de servidores: tarjetas individuales para móviles sin desbordes horizontales y tabla completa para tablets y computadoras.

@@ -76,12 +76,6 @@ export const Home: React.FC = () => {
           <FormularioRegistro />
         </div>
       </main>
-
-      {/* Pie de página institucional */}
-      <footer className="border-t border-blue-900/40 bg-blue-950/30 backdrop-blur-sm py-6 text-center text-xs text-sky-100/80 space-y-1 relative z-10">
-        <p>Registro de nuevos servidores</p>
-        <p>Ministerio Internacional Monte de Dios</p>
-      </footer>
     </div>
   );
 };

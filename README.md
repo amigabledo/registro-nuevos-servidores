@@ -84,6 +84,7 @@ El flujo definitivo de despliegue para este proyecto es:
 ## 4. Historial reciente de actualizaciones
 
 - **03/10/2026**:
+  - Remoción del pie de página con información institucional en la página de inicio pública.
   - Actualización del nombre a "Ministerio Internacional Monte de Dios" en la pantalla de inicio de sesión y en la cabecera del panel administrativo.
   - Remoción de la visualización de correos electrónicos en la ficha de detalle de postulantes, tabla de registros y cuentas del equipo.
   - Ajuste de etiquetas de roles y navegación de pestañas en vista móvil para evitar desbordes y cortes en pantallas de teléfonos.

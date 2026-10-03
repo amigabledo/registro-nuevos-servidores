@@ -22,8 +22,8 @@ export const PreguntasDiscipulado: React.FC<Props> = ({ formData, onChange }) =>
               onClick={() => onChange('escuela_nuevos_creyentes', opt)}
               className={`py-2.5 px-3 rounded-xl border text-sm font-medium transition-all ${
                 formData.escuela_nuevos_creyentes === opt
-                  ? 'bg-blue-600 text-white border-blue-600 shadow-sm'
-                  : 'bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100'
+                  ? 'bg-gradient-to-r from-[#0a4abf] to-[#0284c7] text-white border-[#0a4abf] shadow-md font-bold'
+                  : 'bg-slate-50 text-slate-700 border-slate-200 hover:bg-sky-50/50 hover:border-sky-300'
               }`}
             >
               {opt === 'si' ? 'Sí' : opt === 'cursando' ? 'Cursando' : 'No'}
@@ -45,8 +45,8 @@ export const PreguntasDiscipulado: React.FC<Props> = ({ formData, onChange }) =>
               onClick={() => onChange('bautizado', opt)}
               className={`py-2.5 px-3 rounded-xl border text-sm font-medium transition-all ${
                 formData.bautizado === opt
-                  ? 'bg-blue-600 text-white border-blue-600 shadow-sm'
-                  : 'bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100'
+                  ? 'bg-gradient-to-r from-[#0a4abf] to-[#0284c7] text-white border-[#0a4abf] shadow-md font-bold'
+                  : 'bg-slate-50 text-slate-700 border-slate-200 hover:bg-sky-50/50 hover:border-sky-300'
               }`}
             >
               {opt === 'si' ? 'Sí' : 'No'}
@@ -64,7 +64,7 @@ export const PreguntasDiscipulado: React.FC<Props> = ({ formData, onChange }) =>
               required
               value={formData.fecha_bautismo}
               onChange={(e) => onChange('fecha_bautismo', e.target.value)}
-              className="w-full px-4 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500"
+              className="w-full px-4 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 text-sm focus:outline-none focus:ring-2 focus:ring-[#0284c7]/30 focus:border-[#0a4abf]"
             />
           </div>
         )}
@@ -83,8 +83,8 @@ export const PreguntasDiscipulado: React.FC<Props> = ({ formData, onChange }) =>
               onClick={() => onChange('retiro_liberacion', opt)}
               className={`py-2.5 px-3 rounded-xl border text-sm font-medium transition-all ${
                 formData.retiro_liberacion === opt
-                  ? 'bg-blue-600 text-white border-blue-600 shadow-sm'
-                  : 'bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100'
+                  ? 'bg-gradient-to-r from-[#0a4abf] to-[#0284c7] text-white border-[#0a4abf] shadow-md font-bold'
+                  : 'bg-slate-50 text-slate-700 border-slate-200 hover:bg-sky-50/50 hover:border-sky-300'
               }`}
             >
               {opt === 'si' ? 'Sí' : 'No'}
@@ -102,7 +102,7 @@ export const PreguntasDiscipulado: React.FC<Props> = ({ formData, onChange }) =>
               required
               value={formData.fecha_retiro}
               onChange={(e) => onChange('fecha_retiro', e.target.value)}
-              className="w-full px-4 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500"
+              className="w-full px-4 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 text-sm focus:outline-none focus:ring-2 focus:ring-[#0284c7]/30 focus:border-[#0a4abf]"
             />
           </div>
         )}
@@ -121,8 +121,8 @@ export const PreguntasDiscipulado: React.FC<Props> = ({ formData, onChange }) =>
               onClick={() => onChange('tiene_mentor', opt)}
               className={`py-2.5 px-3 rounded-xl border text-sm font-medium transition-all ${
                 formData.tiene_mentor === opt
-                  ? 'bg-blue-600 text-white border-blue-600 shadow-sm'
-                  : 'bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100'
+                  ? 'bg-gradient-to-r from-[#0a4abf] to-[#0284c7] text-white border-[#0a4abf] shadow-md font-bold'
+                  : 'bg-slate-50 text-slate-700 border-slate-200 hover:bg-sky-50/50 hover:border-sky-300'
               }`}
             >
               {opt === 'si' ? 'Sí' : 'No'}
@@ -141,7 +141,7 @@ export const PreguntasDiscipulado: React.FC<Props> = ({ formData, onChange }) =>
               placeholder="Nombre del mentor"
               value={formData.nombre_mentor}
               onChange={(e) => onChange('nombre_mentor', e.target.value)}
-              className="w-full px-4 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500"
+              className="w-full px-4 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 text-sm focus:outline-none focus:ring-2 focus:ring-[#0284c7]/30 focus:border-[#0a4abf]"
             />
           </div>
         )}
@@ -160,8 +160,8 @@ export const PreguntasDiscipulado: React.FC<Props> = ({ formData, onChange }) =>
               onClick={() => onChange('asiste_casa_paz', opt)}
               className={`py-2.5 px-3 rounded-xl border text-sm font-medium transition-all ${
                 formData.asiste_casa_paz === opt
-                  ? 'bg-blue-600 text-white border-blue-600 shadow-sm'
-                  : 'bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100'
+                  ? 'bg-gradient-to-r from-[#0a4abf] to-[#0284c7] text-white border-[#0a4abf] shadow-md font-bold'
+                  : 'bg-slate-50 text-slate-700 border-slate-200 hover:bg-sky-50/50 hover:border-sky-300'
               }`}
             >
               {opt === 'si' ? 'Sí' : 'No'}

@@ -102,7 +102,7 @@ export const FormularioRegistro: React.FC = () => {
 
       {/* Datos personales */}
       <div className="space-y-4">
-        <h2 className="text-base font-semibold text-slate-800 pb-1 border-b border-slate-100">
+        <h2 className="text-base font-bold text-slate-900 pb-1 border-b border-sky-100">
           Datos personales
         </h2>
 
@@ -118,7 +118,7 @@ export const FormularioRegistro: React.FC = () => {
               placeholder="Su nombre"
               value={formData.nombre}
               onChange={(e) => handleChange('nombre', e.target.value)}
-              className="w-full px-4 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500"
+              className="w-full px-4 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 text-sm focus:outline-none focus:ring-2 focus:ring-[#0284c7]/30 focus:border-[#0a4abf] transition-all"
             />
           </div>
 
@@ -133,7 +133,7 @@ export const FormularioRegistro: React.FC = () => {
               placeholder="Su apellido"
               value={formData.apellido}
               onChange={(e) => handleChange('apellido', e.target.value)}
-              className="w-full px-4 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500"
+              className="w-full px-4 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 text-sm focus:outline-none focus:ring-2 focus:ring-[#0284c7]/30 focus:border-[#0a4abf] transition-all"
             />
           </div>
         </div>
@@ -150,7 +150,7 @@ export const FormularioRegistro: React.FC = () => {
               placeholder="809-000-0000"
               value={formData.telefono}
               onChange={(e) => handleChange('telefono', e.target.value)}
-              className="w-full px-4 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500"
+              className="w-full px-4 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 text-sm focus:outline-none focus:ring-2 focus:ring-[#0284c7]/30 focus:border-[#0a4abf] transition-all"
             />
           </div>
 
@@ -165,7 +165,7 @@ export const FormularioRegistro: React.FC = () => {
               placeholder="ejemplo@correo.com"
               value={formData.correo}
               onChange={(e) => handleChange('correo', e.target.value)}
-              className="w-full px-4 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500"
+              className="w-full px-4 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 text-sm focus:outline-none focus:ring-2 focus:ring-[#0284c7]/30 focus:border-[#0a4abf] transition-all"
             />
           </div>
         </div>
@@ -178,7 +178,7 @@ export const FormularioRegistro: React.FC = () => {
 
       {/* Área ministerial deseada */}
       <div className="space-y-3 pt-2">
-        <h2 className="text-base font-semibold text-slate-800 pb-1 border-b border-slate-100">
+        <h2 className="text-base font-bold text-slate-900 pb-1 border-b border-sky-100">
           Área en que desea servir <span className="text-red-500">*</span>
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
@@ -193,11 +193,13 @@ export const FormularioRegistro: React.FC = () => {
               onClick={() => handleChange('area_servicio', area.id)}
               className={`py-3 px-4 rounded-xl border text-center transition-all ${
                 formData.area_servicio === area.id
-                  ? 'border-blue-600 bg-blue-50/70 shadow-sm ring-1 ring-blue-600'
-                  : 'border-slate-200 bg-slate-50 hover:bg-slate-100'
+                  ? 'border-[#0a4abf] bg-gradient-to-r from-[#0a4abf] to-[#0284c7] text-white shadow-md ring-2 ring-sky-300'
+                  : 'border-slate-200 bg-slate-50 hover:bg-sky-50/60 hover:border-sky-300 text-slate-800'
               }`}
             >
-              <span className="text-sm font-semibold text-slate-900">{area.label}</span>
+              <span className={`text-sm font-bold ${formData.area_servicio === area.id ? 'text-white' : 'text-slate-800'}`}>
+                {area.label}
+              </span>
             </button>
           ))}
         </div>
@@ -208,17 +210,17 @@ export const FormularioRegistro: React.FC = () => {
         <button
           type="submit"
           disabled={isSubmitting}
-          className="w-full py-3.5 px-6 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-medium text-sm flex items-center justify-center gap-2 shadow-md shadow-blue-600/20 active:scale-[0.99] transition-all disabled:opacity-60"
+          className="w-full py-3.5 px-6 rounded-xl bg-gradient-to-r from-[#0a4abf] to-[#0284c7] hover:from-[#083b99] hover:to-[#0369a1] text-white font-bold text-sm flex items-center justify-center gap-2 shadow-lg shadow-blue-900/25 active:scale-[0.99] transition-all disabled:opacity-60"
         >
           {isSubmitting ? (
             <>
               <Loader2 className="w-4 h-4 animate-spin" />
-              <span>Guardando registro</span>
+              <span>Guardando información</span>
             </>
           ) : (
             <>
               <Send className="w-4 h-4" />
-              <span>Completar registro</span>
+              <span>Enviar registro</span>
             </>
           )}
         </button>

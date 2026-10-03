@@ -83,14 +83,17 @@ El flujo definitivo de despliegue para este proyecto es:
 
 ## 4. Historial reciente de actualizaciones
 
+- **03/10/2026**:
+  - Aplicación de la paleta cromática del volante oficial: fondo en degradado azul real y eléctrico (`#0284c7`, `#0f4cbe`, `#08226b`) con efectos de iluminación ambiente.
+  - Integración de las insignias del volante: pastilla blanca "Estamos solicitando", contenedor azul real "Nuevos servidores", subtítulo "Ujieres, escuela dominical y seguridad" y mención de la "Escuela de nuevos creyentes".
+  - Botón de envío con degradado institucional azul y texto "Enviar registro".
+  - Opciones de discipulado y áreas de servicio destacadas con degradado azul real y anillos celestes.
+  - Unificación de usuarios administradores de demostración (`admin`, `kramos`, `marcos`, `servidor`) en sincronía con la plataforma de presentación de niños.
 - **Identidad de marca y cabecera institucional**:
   - Integración visual destacada del nombre oficial **Monte de Dios** en la cabecera superior y en el inicio de sesión.
   - Subtítulo formal "Nuevos servidores" manteniendo equilibrio estético y legibilidad tanto en móviles como en computadoras.
 - **Tarjeta Open Graph y WhatsApp**:
   - Generación de la tarjeta oficial de previsualización en `public/assets/branding/og-preview.png` en resolución exacta de 1200 x 630 px con fondo de alto contraste, isotipo en tarjeta redondeada y tipografía clara para enlaces compartidos en WhatsApp y redes sociales.
 - **Credenciales de acceso**:
-  - Administradores: `marcos` y `kramos`.
-  - Servidores: `servidor1` y `servidor2`.
-- **Formulario y pantalla de confirmación**:
-  - Todas las preguntas de discipulado (escuela, bautismo, retiro, mentor, casa de paz) ahora marcan **Sí** por defecto.
-  - Distribución exacta de saltos de línea y mensajes en la pantalla de registro completado con éxito.
+  - Administradores: `marcos`, `kramos` y `admin`.
+  - Servidores: `servidor`, `servidor1` y `servidor2`.

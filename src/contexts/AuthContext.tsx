@@ -18,8 +18,10 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 const DEMO_USERS: Record<string, { role: UserRole; fullName: string }> = {
+  admin: { role: 'admin', fullName: 'Administrador' },
   marcos: { role: 'admin', fullName: 'Marcos' },
   kramos: { role: 'admin', fullName: 'Katherine Ramos' },
+  servidor: { role: 'servidor', fullName: 'Servidor' },
   servidor1: { role: 'servidor', fullName: 'Servidor 1' },
   servidor2: { role: 'servidor', fullName: 'Servidor 2' },
 };

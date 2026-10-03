@@ -84,6 +84,10 @@ El flujo definitivo de despliegue para este proyecto es:
 ## 4. Historial reciente de actualizaciones
 
 - **03/10/2026**:
+  - Configuración de clave de acceso específica `kamos123` para la administradora `kramos`.
+  - Botón de exportar CSV actualizado con icono de flecha hacia arriba.
+  - Diseño responsivo dual en el panel de servidores: tarjetas individuales para móviles sin desbordes horizontales y tabla completa para tablets y computadoras.
+  - Apertura de permisos RLS para lectura y actualización directa desde la consola PostgREST en Supabase.
   - Retiro del botón de acceso de la cabecera pública para mantener un encabezado 100% limpio e institucional.
   - Mayor desahogo, amplitud y espaciado visual en el bloque de encabezado y títulos principales.
   - Aplicación de la paleta cromática del volante oficial: fondo en degradado azul real y eléctrico (`#0284c7`, `#0f4cbe`, `#08226b`) con efectos de iluminación ambiente.

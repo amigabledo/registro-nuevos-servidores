@@ -112,7 +112,28 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       }
     }
 
-    // Fallback de demostración para los usuarios requeridos
+    // Verificación especial para Katherine Ramos con la clave kamos123
+    if (cleanId === 'kramos') {
+      const cleanPass = password.trim();
+      if (cleanPass === 'kamos123' || cleanPass === 'kramos123') {
+        const demoProfile: Profile = {
+          id: 'demo-kramos',
+          username: 'kramos',
+          full_name: 'Katherine Ramos',
+          email: 'kramos@iglesiamontededios.org.do',
+          role: 'admin',
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString(),
+        };
+        setProfile(demoProfile);
+        setUser({ id: demoProfile.id, email: demoProfile.email } as User);
+        localStorage.setItem('servidores_demo_auth', JSON.stringify(demoProfile));
+        return { error: null };
+      }
+      return { error: new Error('Contraseña incorrecta') };
+    }
+
+    // Fallback de demostración para los demás usuarios requeridos
     const demoUser = DEMO_USERS[cleanId] || (cleanId.includes('@') && DEMO_USERS[cleanId.split('@')[0]]);
     if (demoUser) {
       const demoEmail = candidateEmails[0];

@@ -1,7 +1,8 @@
 import React, { useState, useMemo } from 'react';
 import type { ServidorRegistro, AreaServicio, EstadoRegistro } from '@/types';
 import { DetalleServidorModal } from './DetalleServidorModal';
-import { Search, Download, Phone, Eye, Filter } from 'lucide-react';
+import { ServidorCardMovil } from './ServidorCardMovil';
+import { Search, Upload, Phone, Eye } from 'lucide-react';
 
 interface Props {
   servidores: ServidorRegistro[];
@@ -146,16 +147,36 @@ export const TablaServidores: React.FC<Props> = ({ servidores, onRefresh }) => {
           <button
             type="button"
             onClick={exportarCSV}
-            className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl border border-slate-200 bg-white text-xs font-medium text-slate-700 hover:bg-slate-50 transition-colors shadow-xs"
+            className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl border border-slate-200 bg-white text-xs font-semibold text-slate-700 hover:bg-slate-50 transition-colors shadow-xs"
+            title="Exportar archivo CSV con flecha hacia arriba"
           >
-            <Download className="w-3.5 h-3.5" />
+            <Upload className="w-3.5 h-3.5 text-blue-600" />
             <span>Exportar CSV</span>
           </button>
         </div>
       </div>
 
-      {/* Tabla de registros */}
-      <div className="bg-white rounded-2xl border border-slate-200/80 shadow-xs overflow-hidden">
+      {/* Vista móvil para teléfonos (tarjetas completas sin desbordes horizontales) */}
+      <div className="sm:hidden space-y-3">
+        {filteredServidores.length === 0 ? (
+          <div className="bg-white rounded-2xl border border-slate-200/80 p-8 text-center text-slate-400 text-xs shadow-xs">
+            No se encontraron registros que coincidan con la búsqueda.
+          </div>
+        ) : (
+          filteredServidores.map((s) => (
+            <ServidorCardMovil
+              key={s.id}
+              servidor={s}
+              onSelect={setSelectedServidor}
+              formatArea={formatArea}
+              getEstadoBadge={getEstadoBadge}
+            />
+          ))
+        )}
+      </div>
+
+      {/* Vista para tablet y escritorio (tabla estructurada) */}
+      <div className="hidden sm:block bg-white rounded-2xl border border-slate-200/80 shadow-xs overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse text-xs">
             <thead>
@@ -216,7 +237,7 @@ export const TablaServidores: React.FC<Props> = ({ servidores, onRefresh }) => {
                     <td className="py-3 px-4 text-right">
                       <div className="inline-flex items-center gap-1.5">
                         <a
-                          href={`https://wa.me/${s.telefono.replace(/\D/g, '')}`}
+                          href={`https://wa.me/1${s.telefono.replace(/\D/g, '')}`}
                           target="_blank"
                           rel="noopener noreferrer"
                           className="p-1.5 rounded-lg text-emerald-600 hover:bg-emerald-50 transition-colors"

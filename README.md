@@ -84,6 +84,8 @@ El flujo definitivo de despliegue para este proyecto es:
 ## 4. Historial reciente de actualizaciones
 
 - **03/10/2026**:
+  - Retiro del botón de acceso de la cabecera pública para mantener un encabezado 100% limpio e institucional.
+  - Mayor desahogo, amplitud y espaciado visual en el bloque de encabezado y títulos principales.
   - Aplicación de la paleta cromática del volante oficial: fondo en degradado azul real y eléctrico (`#0284c7`, `#0f4cbe`, `#08226b`) con efectos de iluminación ambiente.
   - Integración de las insignias del volante: pastilla blanca "Estamos solicitando", contenedor azul real "Nuevos servidores", subtítulo "Ujieres, escuela dominical y seguridad" y mención de la "Escuela de nuevos creyentes".
   - Botón de envío con degradado institucional azul y texto "Enviar registro".

@@ -47,11 +47,6 @@ export const FormularioRegistro: React.FC = () => {
       return;
     }
 
-    if (formData.retiro_liberacion === 'si' && !formData.fecha_retiro) {
-      setErrorMessage('Por favor ingrese la fecha de su retiro de liberación');
-      return;
-    }
-
     if (formData.tiene_mentor === 'si' && !formData.nombre_mentor.trim()) {
       setErrorMessage('Por favor ingrese el nombre de su mentor');
       return;

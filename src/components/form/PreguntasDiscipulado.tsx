@@ -56,12 +56,11 @@ export const PreguntasDiscipulado: React.FC<Props> = ({ formData, onChange }) =>
         {formData.bautizado === 'si' && (
           <div className="pt-1">
             <label htmlFor="fecha_bautismo" className="block text-xs font-medium text-slate-600 mb-1">
-              Fecha de bautismo (aproximada si no recuerda el día exacto) <span className="text-red-500">*</span>
+              Fecha de bautismo (opcional, aproximada si no recuerda el día exacto)
             </label>
             <input
               id="fecha_bautismo"
               type="date"
-              required
               value={formData.fecha_bautismo}
               onChange={(e) => onChange('fecha_bautismo', e.target.value)}
               className="w-full px-4 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 text-sm focus:outline-none focus:ring-2 focus:ring-[#0284c7]/30 focus:border-[#0a4abf]"

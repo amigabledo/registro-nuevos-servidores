@@ -20,6 +20,7 @@ const INITIAL_FORM: FormularioRegistroData = {
   nombre_mentor: '',
   asiste_casa_paz: 'si',
   area_servicio: '',
+  notas: '',
 };
 
 export const FormularioRegistro: React.FC = () => {
@@ -40,15 +41,9 @@ export const FormularioRegistro: React.FC = () => {
     if (
       !formData.nombre.trim() ||
       !formData.apellido.trim() ||
-      !formData.telefono.trim() ||
-      !formData.correo.trim()
+      !formData.telefono.trim()
     ) {
       setErrorMessage('Por favor complete todos sus datos personales obligatorios');
-      return;
-    }
-
-    if (formData.bautizado === 'si' && !formData.fecha_bautismo) {
-      setErrorMessage('Por favor ingrese la fecha de su bautismo');
       return;
     }
 
@@ -156,12 +151,11 @@ export const FormularioRegistro: React.FC = () => {
 
           <div>
             <label htmlFor="correo" className="block text-sm font-medium text-slate-700 mb-1">
-              Correo electrónico <span className="text-red-500">*</span>
+              Correo electrónico (opcional)
             </label>
             <input
               id="correo"
               type="email"
-              required
               placeholder="ejemplo@correo.com"
               value={formData.correo}
               onChange={(e) => handleChange('correo', e.target.value)}
@@ -203,6 +197,21 @@ export const FormularioRegistro: React.FC = () => {
             </button>
           ))}
         </div>
+      </div>
+
+      {/* Casilla de notas al final */}
+      <div className="space-y-1.5 pt-2">
+        <label htmlFor="notas" className="block text-sm font-medium text-slate-700">
+          Notas o comentarios adicionales (opcional)
+        </label>
+        <textarea
+          id="notas"
+          rows={3}
+          placeholder="Escriba aquí cualquier detalle, observación o disponibilidad"
+          value={formData.notas || ''}
+          onChange={(e) => handleChange('notas', e.target.value)}
+          className="w-full px-4 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 text-sm focus:outline-none focus:ring-2 focus:ring-[#0284c7]/30 focus:border-[#0a4abf] transition-all resize-none"
+        />
       </div>
 
       {/* Botón de envío */}

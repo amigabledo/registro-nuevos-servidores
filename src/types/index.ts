@@ -14,6 +14,7 @@ export interface FormularioRegistroData {
   nombre_mentor: string;
   asiste_casa_paz: 'si' | 'no';
   area_servicio: 'ujieres' | 'seguridad' | 'escuela_dominical' | '';
+  notas?: string;
 }
 
 export interface MetricCardData {

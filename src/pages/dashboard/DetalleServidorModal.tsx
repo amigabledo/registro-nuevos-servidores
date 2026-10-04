@@ -82,6 +82,17 @@ export const DetalleServidorModal: React.FC<Props> = ({ servidor, onClose, onUpd
                 <span>WhatsApp</span>
               </a>
             </div>
+            {servidor.correo && (
+              <div className="flex items-center gap-2.5 p-3 rounded-xl bg-slate-50 border border-slate-100 text-slate-700">
+                <div className="p-2 rounded-lg bg-sky-50 text-sky-600">
+                  <Mail className="w-4 h-4" />
+                </div>
+                <div>
+                  <span className="text-[10px] text-slate-400 font-semibold block uppercase">Correo</span>
+                  <span className="font-semibold text-slate-900 text-sm">{servidor.correo}</span>
+                </div>
+              </div>
+            )}
           </div>
 
           {/* Trayectoria */}

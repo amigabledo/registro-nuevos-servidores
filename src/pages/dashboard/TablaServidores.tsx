@@ -45,6 +45,7 @@ export const TablaServidores: React.FC<Props> = ({ servidores, onRefresh }) => {
       'Nombre mentor',
       'Casa de paz',
       'Estado',
+      'Notas',
       'Fecha registro',
     ];
 
@@ -63,6 +64,7 @@ export const TablaServidores: React.FC<Props> = ({ servidores, onRefresh }) => {
       `"${s.nombre_mentor || ''}"`,
       `"${s.asiste_casa_paz ? 'Sí' : 'No'}"`,
       `"${s.estado}"`,
+      `"${(s.notas_servidor || '').replace(/"/g, '""')}"`,
       `"${new Date(s.created_at).toLocaleDateString()}"`,
     ]);
 

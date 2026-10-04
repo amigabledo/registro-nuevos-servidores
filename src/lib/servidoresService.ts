@@ -125,7 +125,7 @@ export async function registrarServidor(
     asiste_casa_paz: formData.asiste_casa_paz === 'si',
     area_servicio: formData.area_servicio as AreaServicio,
     estado: 'pendiente',
-    notas_servidor: null,
+    notas_servidor: formData.notas?.trim() || null,
     registrado_por: registradoPorId ?? null,
   };
 

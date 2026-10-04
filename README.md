@@ -83,6 +83,10 @@ El flujo definitivo de despliegue para este proyecto es:
 
 ## 4. Historial reciente de actualizaciones
 
+- **04/10/2026**:
+  - Eliminación de la obligatoriedad del correo electrónico en el formulario de inscripción, pasando a ser un campo opcional.
+  - Eliminación de la obligatoriedad de la fecha de bautismo para postulantes bautizados en aguas.
+  - Inclusión de casilla de notas y comentarios adicionales al final del formulario de postulación, integrada a la base de datos y a la exportación CSV.
 - **03/10/2026**:
   - Remoción del pie de página con información institucional en la página de inicio pública.
   - Actualización del nombre a "Ministerio Internacional Monte de Dios" en la pantalla de inicio de sesión y en la cabecera del panel administrativo.

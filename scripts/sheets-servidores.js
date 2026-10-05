@@ -34,9 +34,7 @@ var COLUMNAS = [
   { clave: 'tiene_mentor', titulo: 'Tiene mentor', ancho: 145, alinear: 'center' },
   { clave: 'nombre_mentor', titulo: 'Nombre del mentor', ancho: 220, alinear: 'left' },
   { clave: 'asiste_casa_paz', titulo: 'Asiste a casa de paz', ancho: 165, alinear: 'center' },
-  { clave: 'estado', titulo: 'Estado de postulación', ancho: 165, alinear: 'center' },
-  { clave: 'notas_servidor', titulo: 'Notas y observaciones', ancho: 320, alinear: 'left' },
-  { clave: 'registrado_por', titulo: 'Registrado por', ancho: 160, alinear: 'left' }
+  { clave: 'notas_servidor', titulo: 'Notas y observaciones', ancho: 340, alinear: 'left' }
 ];
 
 function onOpen() {
@@ -213,9 +211,7 @@ function mapearRegistroAFila(r) {
     mentor,
     (r.nombre_mentor || '').toString().trim(),
     casaPaz,
-    estado,
-    (r.notas_servidor || r.notas || '').toString().trim(),
-    (r.registrado_por || '').toString().trim()
+    (r.notas_servidor || r.notas || '').toString().trim()
   ];
 }
 

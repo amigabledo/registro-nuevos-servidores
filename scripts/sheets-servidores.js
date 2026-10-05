@@ -54,37 +54,52 @@ function limpiarYFormatearHoja() {
 }
 
 function asegurarEncabezadosYFormato(sheet) {
+  // 1. Eliminar columnas sobrantes al final si existen
+  var totalCols = COLUMNAS.length;
+  if (sheet.getLastColumn() > totalCols) {
+    var exceso = sheet.getLastColumn() - totalCols;
+    sheet.deleteColumns(totalCols + 1, exceso);
+  }
+
+  // 2. Verificar o insertar fila 1 para encabezados
   var valorA1 = sheet.getRange(1, 1).getValue();
   if (!valorA1 || valorA1.toString() !== COLUMNAS[0].titulo) {
     if (sheet.getLastRow() > 0) {
       sheet.insertRowBefore(1);
     }
-    sheet.setFrozenRows(1);
+  }
 
-    var titulos = COLUMNAS.map(function(c) { return c.titulo; });
-    var rangoEncabezado = sheet.getRange(1, 1, 1, titulos.length);
-    rangoEncabezado.setValues([titulos]);
+  sheet.setFrozenRows(1);
 
-    rangoEncabezado
-      .setBackground(COLOR_ENCABEZADO)
-      .setFontColor('#FFFFFF')
-      .setFontWeight('bold')
-      .setFontSize(11)
-      .setFontFamily('Arial')
-      .setHorizontalAlignment('center')
-      .setVerticalAlignment('middle')
-      .setWrap(true);
+  var titulos = COLUMNAS.map(function(c) { return c.titulo; });
+  var rangoEncabezado = sheet.getRange(1, 1, 1, titulos.length);
+  rangoEncabezado.setValues([titulos]);
 
-    sheet.setRowHeight(1, 40);
+  rangoEncabezado
+    .setBackground(COLOR_ENCABEZADO)
+    .setFontColor('#FFFFFF')
+    .setFontWeight('bold')
+    .setFontSize(12)
+    .setFontFamily('Calibri')
+    .setHorizontalAlignment('center')
+    .setVerticalAlignment('middle')
+    .setWrap(true);
 
-    for (var i = 0; i < COLUMNAS.length; i++) {
-      var colNum = i + 1;
-      sheet.setColumnWidth(colNum, COLUMNAS[i].ancho);
+  sheet.setRowHeight(1, 42);
 
-      if (COLUMNAS[i].clave === 'telefono') {
-        sheet.getRange(2, colNum, sheet.getMaxRows() - 1, 1).setNumberFormat('@');
-      }
+  for (var i = 0; i < COLUMNAS.length; i++) {
+    var colNum = i + 1;
+    sheet.setColumnWidth(colNum, COLUMNAS[i].ancho);
+
+    if (COLUMNAS[i].clave === 'telefono') {
+      sheet.getRange(2, colNum, sheet.getMaxRows() - 1, 1).setNumberFormat('@');
     }
+  }
+
+  // 3. Aplicar formato Calibri 12 a todas las filas de datos existentes
+  var filasTotales = sheet.getLastRow();
+  if (filasTotales > 1) {
+    aplicarFormatoFilas(sheet, 2, filasTotales - 1);
   }
 }
 
@@ -218,8 +233,8 @@ function mapearRegistroAFila(r) {
 function aplicarFormatoFilas(sheet, filaInicio, cantidad) {
   var rango = sheet.getRange(filaInicio, 1, cantidad, COLUMNAS.length);
   rango
-    .setFontFamily('Arial')
-    .setFontSize(10)
+    .setFontFamily('Calibri')
+    .setFontSize(12)
     .setVerticalAlignment('middle');
 
   for (var c = 0; c < COLUMNAS.length; c++) {

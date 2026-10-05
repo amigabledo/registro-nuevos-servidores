@@ -106,3 +106,6 @@ Al iniciar cualquier proyecto o recibir los detalles de marca (logotipo, isotipo
    - Declarar los enlaces a los favicons con sus tamaÃ±os correspondientes en el `<head>`.
 Esta configuraciÃ³n debe establecerse de manera autÃ³noma y por defecto desde el primer momento, sin necesidad de que el usuario lo solicite.
 
+
+## Integraciones con Google Sheets: Autoformato y encabezados autónomos por defecto
+En toda integración o script de Google Apps Script, la función receptora (doPost) DEBE asegurar de manera autónoma y obligatoria que la fila 1 de la hoja contenga siempre los encabezados oficiales corporativos congelados, con anchos de columna definidos y formato tabular antes de insertar cualquier dato (tanto en inserción individual como en lotes de sincronización histórica). Si la hoja ya contiene datos sin encabezado, el script debe insertar automáticamente una fila encima en la posición 1 y escribir y dar estilo a los encabezados sin requerir que el usuario intervenga manualmente.

@@ -50,46 +50,44 @@ function onOpen() {
 function limpiarYFormatearHoja() {
   var ss = SpreadsheetApp.getActiveSpreadsheet();
   var sheet = ss.getSheetByName(HOJA_NOMBRE) || ss.getActiveSheet();
+  sheet.setName(HOJA_NOMBRE);
+  asegurarEncabezadosYFormato(sheet);
+  return 'Hoja de inscripción de servidores formateada con éxito';
+}
 
-  // Si la primera fila ya contiene datos (no es el título 'Marca temporal'), insertar una fila arriba automáticamente
+function asegurarEncabezadosYFormato(sheet) {
   var valorA1 = sheet.getRange(1, 1).getValue();
-  if (valorA1 && valorA1.toString() !== COLUMNAS[0].titulo) {
-    sheet.insertRowBefore(1);
-  }
+  if (!valorA1 || valorA1.toString() !== COLUMNAS[0].titulo) {
+    if (sheet.getLastRow() > 0) {
+      sheet.insertRowBefore(1);
+    }
+    sheet.setFrozenRows(1);
 
-  // Desproteger y congelar la primera fila
-  sheet.setFrozenRows(1);
+    var titulos = COLUMNAS.map(function(c) { return c.titulo; });
+    var rangoEncabezado = sheet.getRange(1, 1, 1, titulos.length);
+    rangoEncabezado.setValues([titulos]);
 
-  // Escribir títulos de encabezados
-  var titulos = COLUMNAS.map(function(c) { return c.titulo; });
-  var rangoEncabezado = sheet.getRange(1, 1, 1, titulos.length);
-  rangoEncabezado.setValues([titulos]);
+    rangoEncabezado
+      .setBackground(COLOR_ENCABEZADO)
+      .setFontColor('#FFFFFF')
+      .setFontWeight('bold')
+      .setFontSize(11)
+      .setFontFamily('Arial')
+      .setHorizontalAlignment('center')
+      .setVerticalAlignment('middle')
+      .setWrap(true);
 
-  // Estilo visual corporativo
-  rangoEncabezado
-    .setBackground(COLOR_ENCABEZADO)
-    .setFontColor('#FFFFFF')
-    .setFontWeight('bold')
-    .setFontSize(11)
-    .setFontFamily('Arial')
-    .setHorizontalAlignment('center')
-    .setVerticalAlignment('middle')
-    .setWrap(true);
+    sheet.setRowHeight(1, 40);
 
-  sheet.setRowHeight(1, 40);
+    for (var i = 0; i < COLUMNAS.length; i++) {
+      var colNum = i + 1;
+      sheet.setColumnWidth(colNum, COLUMNAS[i].ancho);
 
-  // Ajustar anchos y formato de columnas
-  for (var i = 0; i < COLUMNAS.length; i++) {
-    var colNum = i + 1;
-    sheet.setColumnWidth(colNum, COLUMNAS[i].ancho);
-
-    // Si es teléfono, aplicar formato texto para preservar el número exacto
-    if (COLUMNAS[i].clave === 'telefono' || COLUMNAS[i].clave === 'id') {
-      sheet.getRange(2, colNum, sheet.getMaxRows() - 1, 1).setNumberFormat('@');
+      if (COLUMNAS[i].clave === 'telefono') {
+        sheet.getRange(2, colNum, sheet.getMaxRows() - 1, 1).setNumberFormat('@');
+      }
     }
   }
-
-  return 'Hoja de inscripción de servidores formateada con éxito';
 }
 
 function doPost(e) {
@@ -105,11 +103,11 @@ function doPost(e) {
 
   try {
     var ss = SpreadsheetApp.getActiveSpreadsheet();
-    var sheet = ss.getSheetByName(HOJA_NOMBRE);
-    if (!sheet) {
-      limpiarYFormatearHoja();
-      sheet = ss.getSheetByName(HOJA_NOMBRE);
-    }
+    var sheet = ss.getSheetByName(HOJA_NOMBRE) || ss.getActiveSheet();
+    sheet.setName(HOJA_NOMBRE);
+
+    // Garantizar de manera autonoma que la fila 1 tenga los encabezados y formato corporativo
+    asegurarEncabezadosYFormato(sheet);
 
     var contenido = JSON.parse(e.postData.contents);
 

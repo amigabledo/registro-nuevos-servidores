@@ -84,9 +84,11 @@ El flujo definitivo de despliegue para este proyecto es:
 ## 4. Historial reciente de actualizaciones
 
 - **05/10/2026**:
+  - Corrección de alineación del banner institucional de tres filas en Google Sheets a la izquierda, garantizando que los títulos sean 100% visibles inmediatamente al abrir la hoja en cualquier pantalla o resolución sin requerir desplazamiento horizontal.
+  - Formato corporativo para exportación a Excel (.xlsx) con alturas de fila generosas (40 px, 36 px, 32 px para el membrete, 44 px para encabezados y 28 px para filas de datos) y tipografía Calibri tamaño 12.
   - Integración con Google Sheets mediante Google Apps Script para Inscripción de Servidores (`scripts/sheets-servidores.js`), Presentación de Niños (`scripts/sheets-presentacion-ninos.js`) y Hospedaje Revival (`scripts/sheets-hospedaje-revival.js`).
   - Implementación de Cloudflare Pages Functions en `functions/api/` (`servidores.ts`, `presentacion.ts`, `hospedaje.ts`, `sync.ts`) para despacho a variables de entorno de webhooks.
-  - Sincronización histórica exitosa de 77 registros de servidores hacia Google Sheets con fecha oficial de República Dominicana y formato tabular.
+  - Sincronización histórica exitosa de registros de servidores hacia Google Sheets con fecha oficial de República Dominicana y formato tabular.
   - Generación de sincronizador por lotes (`scripts/sync-all-to-sheets.cjs`) para transferir respuestas históricas de cualquiera de los 3 formularios mediante comandos directos.
 - **04/10/2026**:
   - Eliminación de la obligatoriedad del correo electrónico en el formulario de inscripción, pasando a ser un campo opcional.

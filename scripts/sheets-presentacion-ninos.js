@@ -3,24 +3,24 @@
  * Ministerio Internacional Monte de Dios
  * 
  * Configuración:
- * 1. Abre tu hoja de cálculo en Google Sheets para Presentación de Niños.
+ * 1. Abre tu hoja de cálculo en Google Sheets.
  * 2. Ve a Extensiones > Apps Script.
  * 3. Pega este código completo en Code.gs.
- * 4. Guarda y ejecuta una vez 'limpiarYFormatearHoja' para dar permisos y estructurar la hoja.
- * 5. Haz clic en 'Implementar' > 'Nueva implementación'.
- *    - Tipo: Aplicación web.
- *    - Descripción: Webhook Presentación de Niños.
- *    - Ejecutar como: Yo (tu correo de Google).
- *    - Quién tiene acceso: Cualquier usuario (Anyone).
- * 6. Copia la URL generada y asígnala a la variable GOOGLE_SHEETS_PRESENTACION_URL en Cloudflare Pages.
+ * 4. Guarda y ejecuta una vez 'limpiarYFormatearHoja' para estructurar la hoja.
+ * 5. Haz clic en 'Implementar' > 'Administrar implementaciones' > Editar > Versión: Nueva versión > Implementar.
  */
 
 var HOJA_NOMBRE = 'Presentaciones';
 var COLOR_ENCABEZADO = '#0284C7'; // Azul zafiro institucional
 var ZONA_HORARIA = 'America/Santo_Domingo';
 
+var TITULO_LINEA_1 = 'MINISTERIO INTERNACIONAL MONTE DE DIOS';
+var TITULO_LINEA_2 = 'Presentación de niños';
+var TITULO_LINEA_3 = 'OCTUBRE, 2026';
+var FILA_ENCABEZADOS = 4;
+
 var COLUMNAS = [
-  { clave: 'marca_temporal', titulo: 'Marca temporal', ancho: 175, alinear: 'center' },
+  { clave: 'marca_temporal', titulo: 'Marca temporal', ancho: 180, alinear: 'center' },
   { clave: 'nombre_nino', titulo: 'Nombre del niño o niña', ancho: 260, alinear: 'left' },
   { clave: 'fecha_nacimiento', titulo: 'Fecha de nacimiento', ancho: 160, alinear: 'center' },
   { clave: 'edad_nino', titulo: 'Edad del niño', ancho: 150, alinear: 'center' },
@@ -49,37 +49,89 @@ function limpiarYFormatearHoja() {
 }
 
 function asegurarEncabezadosYFormato(sheet) {
-  var valorA1 = sheet.getRange(1, 1).getValue();
-  if (!valorA1 || valorA1.toString() !== COLUMNAS[0].titulo) {
-    if (sheet.getLastRow() > 0) {
-      sheet.insertRowBefore(1);
+  var totalCols = COLUMNAS.length;
+
+  if (sheet.getLastColumn() > totalCols) {
+    var exceso = sheet.getLastColumn() - totalCols;
+    sheet.deleteColumns(totalCols + 1, exceso);
+  }
+
+  var valorA1 = sheet.getRange(1, 1).getValue().toString().trim();
+  if (valorA1 !== TITULO_LINEA_1) {
+    if (valorA1 === COLUMNAS[0].titulo) {
+      sheet.insertRowsBefore(1, 3);
+    } else if (sheet.getLastRow() > 0) {
+      sheet.insertRowsBefore(1, 4);
     }
-    sheet.setFrozenRows(1);
+  }
 
-    var titulos = COLUMNAS.map(function(c) { return c.titulo; });
-    var rangoEncabezado = sheet.getRange(1, 1, 1, titulos.length);
-    rangoEncabezado.setValues([titulos]);
+  // Fila 1: MINISTERIO INTERNACIONAL MONTE DE DIOS
+  var rangoFila1 = sheet.getRange(1, 1, 1, totalCols);
+  rangoFila1.merge()
+    .setValue(TITULO_LINEA_1)
+    .setBackground('#0369A1')
+    .setFontColor('#FFFFFF')
+    .setFontWeight('bold')
+    .setFontSize(14)
+    .setFontFamily('Calibri')
+    .setHorizontalAlignment('center')
+    .setVerticalAlignment('middle');
+  sheet.setRowHeight(1, 38);
 
-    rangoEncabezado
-      .setBackground(COLOR_ENCABEZADO)
-      .setFontColor('#FFFFFF')
-      .setFontWeight('bold')
-      .setFontSize(11)
-      .setFontFamily('Arial')
-      .setHorizontalAlignment('center')
-      .setVerticalAlignment('middle')
-      .setWrap(true);
+  // Fila 2: Presentación de niños
+  var rangoFila2 = sheet.getRange(2, 1, 1, totalCols);
+  rangoFila2.merge()
+    .setValue(TITULO_LINEA_2)
+    .setBackground('#0284C7')
+    .setFontColor('#FFFFFF')
+    .setFontWeight('bold')
+    .setFontSize(13)
+    .setFontFamily('Calibri')
+    .setHorizontalAlignment('center')
+    .setVerticalAlignment('middle');
+  sheet.setRowHeight(2, 34);
 
-    sheet.setRowHeight(1, 40);
+  // Fila 3: OCTUBRE, 2026
+  var rangoFila3 = sheet.getRange(3, 1, 1, totalCols);
+  rangoFila3.merge()
+    .setValue(TITULO_LINEA_3)
+    .setBackground('#E0F2FE')
+    .setFontColor('#0369A1')
+    .setFontWeight('bold')
+    .setFontSize(12)
+    .setFontFamily('Calibri')
+    .setHorizontalAlignment('center')
+    .setVerticalAlignment('middle');
+  sheet.setRowHeight(3, 30);
 
-    for (var i = 0; i < COLUMNAS.length; i++) {
-      var colNum = i + 1;
-      sheet.setColumnWidth(colNum, COLUMNAS[i].ancho);
+  // Fila 4: Encabezados de columnas
+  var titulos = COLUMNAS.map(function(c) { return c.titulo; });
+  var rangoEncabezado = sheet.getRange(FILA_ENCABEZADOS, 1, 1, titulos.length);
+  rangoEncabezado.setValues([titulos])
+    .setBackground('#0284C7')
+    .setFontColor('#FFFFFF')
+    .setFontWeight('bold')
+    .setFontSize(12)
+    .setFontFamily('Calibri')
+    .setHorizontalAlignment('center')
+    .setVerticalAlignment('middle')
+    .setWrap(true);
+  sheet.setRowHeight(FILA_ENCABEZADOS, 44);
 
-      if (COLUMNAS[i].clave === 'telefono_padre' || COLUMNAS[i].clave === 'telefono_madre') {
-        sheet.getRange(2, colNum, sheet.getMaxRows() - 1, 1).setNumberFormat('@');
-      }
+  sheet.setFrozenRows(FILA_ENCABEZADOS);
+
+  for (var i = 0; i < COLUMNAS.length; i++) {
+    var colNum = i + 1;
+    sheet.setColumnWidth(colNum, COLUMNAS[i].ancho);
+
+    if (COLUMNAS[i].clave === 'telefono_padre' || COLUMNAS[i].clave === 'telefono_madre') {
+      sheet.getRange(FILA_ENCABEZADOS + 1, colNum, Math.max(sheet.getMaxRows() - FILA_ENCABEZADOS, 1), 1).setNumberFormat('@');
     }
+  }
+
+  var filasTotales = sheet.getLastRow();
+  if (filasTotales >= FILA_ENCABEZADOS + 1) {
+    aplicarFormatoFilas(sheet, FILA_ENCABEZADOS + 1, filasTotales - FILA_ENCABEZADOS);
   }
 }
 
@@ -99,7 +151,6 @@ function doPost(e) {
     var sheet = ss.getSheetByName(HOJA_NOMBRE) || ss.getActiveSheet();
     sheet.setName(HOJA_NOMBRE);
 
-    // Garantizar de manera autonoma que la fila 1 tenga los encabezados y formato corporativo
     asegurarEncabezadosYFormato(sheet);
 
     var contenido = JSON.parse(e.postData.contents);
@@ -110,12 +161,14 @@ function doPost(e) {
       for (var k = 0; k < contenido.records.length; k++) {
         filasLote.push(mapearRegistroAFila(contenido.records[k]));
       }
+
       if (filasLote.length > 0) {
-        var ultimaFila = sheet.getLastRow();
+        var ultimaFila = Math.max(sheet.getLastRow(), FILA_ENCABEZADOS);
         var numCols = COLUMNAS.length;
         sheet.getRange(ultimaFila + 1, 1, filasLote.length, numCols).setValues(filasLote);
         aplicarFormatoFilas(sheet, ultimaFila + 1, filasLote.length);
       }
+
       return ContentService.createTextOutput(JSON.stringify({
         success: true,
         registros_insertados: filasLote.length,
@@ -134,7 +187,7 @@ function doPost(e) {
     return ContentService.createTextOutput(JSON.stringify({
       success: true,
       fila: filaInsertada,
-      mensaje: 'Presentación de niño registrada satisfactoriamente en Google Sheets'
+      mensaje: 'Registro de niño guardado satisfactoriamente en Google Sheets'
     })).setMimeType(ContentService.MimeType.JSON);
 
   } catch (err) {
@@ -193,9 +246,13 @@ function mapearRegistroAFila(r) {
 function aplicarFormatoFilas(sheet, filaInicio, cantidad) {
   var rango = sheet.getRange(filaInicio, 1, cantidad, COLUMNAS.length);
   rango
-    .setFontFamily('Arial')
-    .setFontSize(10)
+    .setFontFamily('Calibri')
+    .setFontSize(12)
     .setVerticalAlignment('middle');
+
+  for (var i = 0; i < cantidad; i++) {
+    sheet.setRowHeight(filaInicio + i, 28);
+  }
 
   for (var c = 0; c < COLUMNAS.length; c++) {
     sheet.getRange(filaInicio, c + 1, cantidad, 1).setHorizontalAlignment(COLUMNAS[c].alinear);

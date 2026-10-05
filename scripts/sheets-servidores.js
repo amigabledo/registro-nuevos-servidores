@@ -6,35 +6,35 @@
  * 1. Abre tu hoja de cálculo en Google Sheets.
  * 2. Ve a Extensiones > Apps Script.
  * 3. Pega este código completo en Code.gs.
- * 4. Guarda y ejecuta una vez 'limpiarYFormatearHoja' para dar permisos y estructurar la hoja.
- * 5. Haz clic en 'Implementar' > 'Nueva implementación'.
- *    - Tipo: Aplicación web.
- *    - Descripción: Webhook Inscripción de Servidores.
- *    - Ejecutar como: Yo (tu correo de Google).
- *    - Quién tiene acceso: Cualquier usuario (Anyone).
- * 6. Copia la URL generada y asígnala a la variable GOOGLE_SHEETS_SERVIDORES_URL en Cloudflare Pages.
+ * 4. Guarda y ejecuta una vez 'limpiarYFormatearHoja' para estructurar la hoja.
+ * 5. Haz clic en 'Implementar' > 'Administrar implementaciones' > Editar > Versión: Nueva versión > Implementar.
  */
 
 var HOJA_NOMBRE = 'Servidores';
 var COLOR_ENCABEZADO = '#0A4ABF'; // Azul corporativo institucional
 var ZONA_HORARIA = 'America/Santo_Domingo';
 
+var TITULO_LINEA_1 = 'MINISTERIO INTERNACIONAL MONTE DE DIOS';
+var TITULO_LINEA_2 = 'Inscripción de nuevos servidores';
+var TITULO_LINEA_3 = 'OCTUBRE, 2026';
+var FILA_ENCABEZADOS = 4;
+
 var COLUMNAS = [
-  { clave: 'marca_temporal', titulo: 'Marca temporal', ancho: 175, alinear: 'center' },
+  { clave: 'marca_temporal', titulo: 'Marca temporal', ancho: 180, alinear: 'center' },
   { clave: 'nombre', titulo: 'Nombre', ancho: 170, alinear: 'left' },
   { clave: 'apellido', titulo: 'Apellido', ancho: 170, alinear: 'left' },
-  { clave: 'telefono', titulo: 'Teléfono o WhatsApp', ancho: 175, alinear: 'center' },
-  { clave: 'correo', titulo: 'Correo electrónico', ancho: 230, alinear: 'left' },
-  { clave: 'area_servicio', titulo: 'Área en que desea servir', ancho: 195, alinear: 'center' },
-  { clave: 'escuela_nuevos_creyentes', titulo: 'Escuela de nuevos creyentes', ancho: 195, alinear: 'center' },
-  { clave: 'bautizado', titulo: 'Bautizado en aguas', ancho: 155, alinear: 'center' },
-  { clave: 'fecha_bautismo', titulo: 'Fecha de bautismo', ancho: 155, alinear: 'center' },
-  { clave: 'retiro_liberacion', titulo: 'Retiro de liberación', ancho: 165, alinear: 'center' },
-  { clave: 'fecha_retiro', titulo: 'Fecha de retiro', ancho: 155, alinear: 'center' },
-  { clave: 'tiene_mentor', titulo: 'Tiene mentor', ancho: 145, alinear: 'center' },
+  { clave: 'telefono', titulo: 'Teléfono o WhatsApp', ancho: 180, alinear: 'center' },
+  { clave: 'correo', titulo: 'Correo electrónico', ancho: 240, alinear: 'left' },
+  { clave: 'area_servicio', titulo: 'Área en que desea servir', ancho: 200, alinear: 'center' },
+  { clave: 'escuela_nuevos_creyentes', titulo: 'Escuela de nuevos creyentes', ancho: 200, alinear: 'center' },
+  { clave: 'bautizado', titulo: 'Bautizado en aguas', ancho: 160, alinear: 'center' },
+  { clave: 'fecha_bautismo', titulo: 'Fecha de bautismo', ancho: 160, alinear: 'center' },
+  { clave: 'retiro_liberacion', titulo: 'Retiro de liberación', ancho: 170, alinear: 'center' },
+  { clave: 'fecha_retiro', titulo: 'Fecha de retiro', ancho: 160, alinear: 'center' },
+  { clave: 'tiene_mentor', titulo: 'Tiene mentor', ancho: 150, alinear: 'center' },
   { clave: 'nombre_mentor', titulo: 'Nombre del mentor', ancho: 220, alinear: 'left' },
-  { clave: 'asiste_casa_paz', titulo: 'Asiste a casa de paz', ancho: 165, alinear: 'center' },
-  { clave: 'notas_servidor', titulo: 'Notas y observaciones', ancho: 340, alinear: 'left' }
+  { clave: 'asiste_casa_paz', titulo: 'Asiste a casa de paz', ancho: 170, alinear: 'center' },
+  { clave: 'notas_servidor', titulo: 'Notas y observaciones', ancho: 350, alinear: 'left' }
 ];
 
 function onOpen() {
@@ -54,29 +54,70 @@ function limpiarYFormatearHoja() {
 }
 
 function asegurarEncabezadosYFormato(sheet) {
-  // 1. Eliminar columnas sobrantes al final si existen
   var totalCols = COLUMNAS.length;
+
+  // 1. Eliminar automáticamente columnas sobrantes a la derecha si existen
   if (sheet.getLastColumn() > totalCols) {
     var exceso = sheet.getLastColumn() - totalCols;
     sheet.deleteColumns(totalCols + 1, exceso);
   }
 
-  // 2. Verificar o insertar fila 1 para encabezados
-  var valorA1 = sheet.getRange(1, 1).getValue();
-  if (!valorA1 || valorA1.toString() !== COLUMNAS[0].titulo) {
-    if (sheet.getLastRow() > 0) {
-      sheet.insertRowBefore(1);
+  // 2. Verificar o reestructurar filas superiores para el banner institucional
+  var valorA1 = sheet.getRange(1, 1).getValue().toString().trim();
+  if (valorA1 !== TITULO_LINEA_1) {
+    if (valorA1 === COLUMNAS[0].titulo) {
+      // Los encabezados estaban en la fila 1: insertar 3 filas arriba para el banner
+      sheet.insertRowsBefore(1, 3);
+    } else if (sheet.getLastRow() > 0) {
+      // Había datos directamente desde la fila 1: insertar 4 filas arriba
+      sheet.insertRowsBefore(1, 4);
     }
   }
 
-  sheet.setFrozenRows(1);
+  // Fila 1: MINISTERIO INTERNACIONAL MONTE DE DIOS
+  var rangoFila1 = sheet.getRange(1, 1, 1, totalCols);
+  rangoFila1.merge()
+    .setValue(TITULO_LINEA_1)
+    .setBackground('#0A4ABF')
+    .setFontColor('#FFFFFF')
+    .setFontWeight('bold')
+    .setFontSize(14)
+    .setFontFamily('Calibri')
+    .setHorizontalAlignment('center')
+    .setVerticalAlignment('middle');
+  sheet.setRowHeight(1, 38);
 
+  // Fila 2: Inscripción de nuevos servidores
+  var rangoFila2 = sheet.getRange(2, 1, 1, totalCols);
+  rangoFila2.merge()
+    .setValue(TITULO_LINEA_2)
+    .setBackground('#0C56DB')
+    .setFontColor('#FFFFFF')
+    .setFontWeight('bold')
+    .setFontSize(13)
+    .setFontFamily('Calibri')
+    .setHorizontalAlignment('center')
+    .setVerticalAlignment('middle');
+  sheet.setRowHeight(2, 34);
+
+  // Fila 3: OCTUBRE, 2026
+  var rangoFila3 = sheet.getRange(3, 1, 1, totalCols);
+  rangoFila3.merge()
+    .setValue(TITULO_LINEA_3)
+    .setBackground('#EBF2FF')
+    .setFontColor('#0A4ABF')
+    .setFontWeight('bold')
+    .setFontSize(12)
+    .setFontFamily('Calibri')
+    .setHorizontalAlignment('center')
+    .setVerticalAlignment('middle');
+  sheet.setRowHeight(3, 30);
+
+  // Fila 4: Encabezados de columnas
   var titulos = COLUMNAS.map(function(c) { return c.titulo; });
-  var rangoEncabezado = sheet.getRange(1, 1, 1, titulos.length);
-  rangoEncabezado.setValues([titulos]);
-
-  rangoEncabezado
-    .setBackground(COLOR_ENCABEZADO)
+  var rangoEncabezado = sheet.getRange(FILA_ENCABEZADOS, 1, 1, titulos.length);
+  rangoEncabezado.setValues([titulos])
+    .setBackground('#082F7E')
     .setFontColor('#FFFFFF')
     .setFontWeight('bold')
     .setFontSize(12)
@@ -84,22 +125,25 @@ function asegurarEncabezadosYFormato(sheet) {
     .setHorizontalAlignment('center')
     .setVerticalAlignment('middle')
     .setWrap(true);
+  sheet.setRowHeight(FILA_ENCABEZADOS, 44);
 
-  sheet.setRowHeight(1, 42);
+  // Congelar las 4 filas superiores (banner + encabezados)
+  sheet.setFrozenRows(FILA_ENCABEZADOS);
 
+  // Anchos de columna y formato texto en teléfonos
   for (var i = 0; i < COLUMNAS.length; i++) {
     var colNum = i + 1;
     sheet.setColumnWidth(colNum, COLUMNAS[i].ancho);
 
     if (COLUMNAS[i].clave === 'telefono') {
-      sheet.getRange(2, colNum, sheet.getMaxRows() - 1, 1).setNumberFormat('@');
+      sheet.getRange(FILA_ENCABEZADOS + 1, colNum, Math.max(sheet.getMaxRows() - FILA_ENCABEZADOS, 1), 1).setNumberFormat('@');
     }
   }
 
-  // 3. Aplicar formato Calibri 12 a todas las filas de datos existentes
+  // Formatear todas las filas de datos existentes a Calibri 12 con altura espaciosa
   var filasTotales = sheet.getLastRow();
-  if (filasTotales > 1) {
-    aplicarFormatoFilas(sheet, 2, filasTotales - 1);
+  if (filasTotales >= FILA_ENCABEZADOS + 1) {
+    aplicarFormatoFilas(sheet, FILA_ENCABEZADOS + 1, filasTotales - FILA_ENCABEZADOS);
   }
 }
 
@@ -119,7 +163,7 @@ function doPost(e) {
     var sheet = ss.getSheetByName(HOJA_NOMBRE) || ss.getActiveSheet();
     sheet.setName(HOJA_NOMBRE);
 
-    // Garantizar de manera autonoma que la fila 1 tenga los encabezados y formato corporativo
+    // Garantizar de manera autonoma el banner institucional y los encabezados
     asegurarEncabezadosYFormato(sheet);
 
     var contenido = JSON.parse(e.postData.contents);
@@ -130,8 +174,9 @@ function doPost(e) {
       for (var k = 0; k < contenido.records.length; k++) {
         filasLote.push(mapearRegistroAFila(contenido.records[k]));
       }
+
       if (filasLote.length > 0) {
-        var ultimaFila = sheet.getLastRow();
+        var ultimaFila = Math.max(sheet.getLastRow(), FILA_ENCABEZADOS);
         var numCols = COLUMNAS.length;
         sheet.getRange(ultimaFila + 1, 1, filasLote.length, numCols).setValues(filasLote);
         aplicarFormatoFilas(sheet, ultimaFila + 1, filasLote.length);
@@ -187,13 +232,10 @@ function mapearRegistroAFila(r) {
 
   var nombre = (r.nombre || '').toString().trim();
   var apellido = (r.apellido || '').toString().trim();
-  var nombreCompleto = (nombre + ' ' + apellido).trim();
 
-  // Formato texto de teléfono
   var telRaw = (r.telefono || '').toString().trim();
   var telefono = telRaw ? "'" + telRaw : '';
 
-  // Formateo de opciones booleanas / valores legibles
   var escuela = r.escuela_nuevos_creyentes === 'si' ? 'Sí' : (r.escuela_nuevos_creyentes === 'cursando' ? 'Cursando' : 'No');
   var bautizado = r.bautizado === true || r.bautizado === 'si' ? 'Sí' : 'No';
   var retiro = r.retiro_liberacion === true || r.retiro_liberacion === 'si' ? 'Sí' : 'No';
@@ -204,12 +246,6 @@ function mapearRegistroAFila(r) {
   if (area === 'ujieres') area = 'Ujieres';
   else if (area === 'seguridad') area = 'Seguridad';
   else if (area === 'escuela_dominical') area = 'Escuela dominical';
-
-  var estado = r.estado || 'Pendiente';
-  if (estado === 'pendiente') estado = 'Pendiente';
-  else if (estado === 'en_revision') estado = 'En revisión';
-  else if (estado === 'contactado') estado = 'Contactado';
-  else if (estado === 'aprobado') estado = 'Aprobado';
 
   return [
     marcaTemporal,
@@ -236,6 +272,10 @@ function aplicarFormatoFilas(sheet, filaInicio, cantidad) {
     .setFontFamily('Calibri')
     .setFontSize(12)
     .setVerticalAlignment('middle');
+
+  for (var i = 0; i < cantidad; i++) {
+    sheet.setRowHeight(filaInicio + i, 28);
+  }
 
   for (var c = 0; c < COLUMNAS.length; c++) {
     sheet.getRange(filaInicio, c + 1, cantidad, 1).setHorizontalAlignment(COLUMNAS[c].alinear);

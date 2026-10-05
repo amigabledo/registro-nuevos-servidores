@@ -72,9 +72,9 @@ function asegurarEncabezadosYFormato(sheet) {
     .setFontWeight('bold')
     .setFontSize(14)
     .setFontFamily('Calibri')
-    .setHorizontalAlignment('center')
+    .setHorizontalAlignment('left')
     .setVerticalAlignment('middle');
-  sheet.setRowHeight(1, 38);
+  sheet.setRowHeight(1, 40);
 
   // Fila 2: Registro de hospedaje Revival
   var rangoFila2 = sheet.getRange(2, 1, 1, totalCols);
@@ -85,9 +85,9 @@ function asegurarEncabezadosYFormato(sheet) {
     .setFontWeight('bold')
     .setFontSize(13)
     .setFontFamily('Calibri')
-    .setHorizontalAlignment('center')
+    .setHorizontalAlignment('left')
     .setVerticalAlignment('middle');
-  sheet.setRowHeight(2, 34);
+  sheet.setRowHeight(2, 36);
 
   // Fila 3: OCTUBRE, 2026
   var rangoFila3 = sheet.getRange(3, 1, 1, totalCols);
@@ -98,9 +98,9 @@ function asegurarEncabezadosYFormato(sheet) {
     .setFontWeight('bold')
     .setFontSize(12)
     .setFontFamily('Calibri')
-    .setHorizontalAlignment('center')
+    .setHorizontalAlignment('left')
     .setVerticalAlignment('middle');
-  sheet.setRowHeight(3, 30);
+  sheet.setRowHeight(3, 32);
 
   // Fila 4: Encabezados de columnas
   var titulos = COLUMNAS.map(function(c) { return c.titulo; });

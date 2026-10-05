@@ -21,10 +21,8 @@ var ZONA_HORARIA = 'America/Santo_Domingo';
 
 var COLUMNAS = [
   { clave: 'marca_temporal', titulo: 'Marca temporal', ancho: 175, alinear: 'center' },
-  { clave: 'id', titulo: 'ID Registro', ancho: 140, alinear: 'center' },
   { clave: 'nombre', titulo: 'Nombre', ancho: 170, alinear: 'left' },
   { clave: 'apellido', titulo: 'Apellido', ancho: 170, alinear: 'left' },
-  { clave: 'nombre_completo', titulo: 'Nombre completo', ancho: 230, alinear: 'left' },
   { clave: 'telefono', titulo: 'Teléfono o WhatsApp', ancho: 175, alinear: 'center' },
   { clave: 'correo', titulo: 'Correo electrónico', ancho: 230, alinear: 'left' },
   { clave: 'area_servicio', titulo: 'Área en que desea servir', ancho: 195, alinear: 'center' },
@@ -51,9 +49,12 @@ function onOpen() {
 
 function limpiarYFormatearHoja() {
   var ss = SpreadsheetApp.getActiveSpreadsheet();
-  var sheet = ss.getSheetByName(HOJA_NOMBRE);
-  if (!sheet) {
-    sheet = ss.insertSheet(HOJA_NOMBRE);
+  var sheet = ss.getSheetByName(HOJA_NOMBRE) || ss.getActiveSheet();
+
+  // Si la primera fila ya contiene datos (no es el título 'Marca temporal'), insertar una fila arriba automáticamente
+  var valorA1 = sheet.getRange(1, 1).getValue();
+  if (valorA1 && valorA1.toString() !== COLUMNAS[0].titulo) {
+    sheet.insertRowBefore(1);
   }
 
   // Desproteger y congelar la primera fila
@@ -201,10 +202,8 @@ function mapearRegistroAFila(r) {
 
   return [
     marcaTemporal,
-    (r.id || '').toString(),
     nombre,
     apellido,
-    nombreCompleto,
     telefono,
     (r.correo || '').toString().trim(),
     area,
@@ -229,12 +228,11 @@ function aplicarFormatoFilas(sheet, filaInicio, cantidad) {
     .setFontSize(10)
     .setVerticalAlignment('middle');
 
-  // Ajuste de texto en la columna de notas
-  sheet.getRange(filaInicio, 18, cantidad, 1).setWrap(true);
-
-  // Alineaciones específicas por columna
   for (var c = 0; c < COLUMNAS.length; c++) {
     sheet.getRange(filaInicio, c + 1, cantidad, 1).setHorizontalAlignment(COLUMNAS[c].alinear);
+    if (COLUMNAS[c].clave === 'notas_servidor') {
+      sheet.getRange(filaInicio, c + 1, cantidad, 1).setWrap(true);
+    }
   }
 }
 

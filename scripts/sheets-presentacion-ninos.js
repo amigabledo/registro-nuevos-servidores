@@ -21,7 +21,6 @@ var ZONA_HORARIA = 'America/Santo_Domingo';
 
 var COLUMNAS = [
   { clave: 'marca_temporal', titulo: 'Marca temporal', ancho: 175, alinear: 'center' },
-  { clave: 'id', titulo: 'ID Registro', ancho: 140, alinear: 'center' },
   { clave: 'nombre_nino', titulo: 'Nombre del niño o niña', ancho: 260, alinear: 'left' },
   { clave: 'fecha_nacimiento', titulo: 'Fecha de nacimiento', ancho: 160, alinear: 'center' },
   { clave: 'edad_nino', titulo: 'Edad del niño', ancho: 150, alinear: 'center' },
@@ -43,9 +42,12 @@ function onOpen() {
 
 function limpiarYFormatearHoja() {
   var ss = SpreadsheetApp.getActiveSpreadsheet();
-  var sheet = ss.getSheetByName(HOJA_NOMBRE);
-  if (!sheet) {
-    sheet = ss.insertSheet(HOJA_NOMBRE);
+  var sheet = ss.getSheetByName(HOJA_NOMBRE) || ss.getActiveSheet();
+
+  // Si la primera fila ya contiene datos (no es el título 'Marca temporal'), insertar una fila arriba automáticamente
+  var valorA1 = sheet.getRange(1, 1).getValue();
+  if (valorA1 && valorA1.toString() !== COLUMNAS[0].titulo) {
+    sheet.insertRowBefore(1);
   }
 
   sheet.setFrozenRows(1);
@@ -173,7 +175,6 @@ function mapearRegistroAFila(r) {
 
   return [
     marcaTemporal,
-    (r.id || '').toString(),
     (r.nombre_nino || '').toString().trim(),
     (r.fecha_nacimiento || '').toString().trim(),
     (r.edad_nino || '').toString().trim(),
@@ -193,11 +194,11 @@ function aplicarFormatoFilas(sheet, filaInicio, cantidad) {
     .setFontSize(10)
     .setVerticalAlignment('middle');
 
-  // Ajuste de texto en notas
-  sheet.getRange(filaInicio, 11, cantidad, 1).setWrap(true);
-
   for (var c = 0; c < COLUMNAS.length; c++) {
     sheet.getRange(filaInicio, c + 1, cantidad, 1).setHorizontalAlignment(COLUMNAS[c].alinear);
+    if (COLUMNAS[c].clave === 'notas') {
+      sheet.getRange(filaInicio, c + 1, cantidad, 1).setWrap(true);
+    }
   }
 }
 

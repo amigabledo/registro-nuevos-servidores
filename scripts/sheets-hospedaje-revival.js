@@ -21,7 +21,6 @@ var ZONA_HORARIA = 'America/Santo_Domingo';
 
 var COLUMNAS = [
   { clave: 'marca_temporal', titulo: 'Marca temporal', ancho: 175, alinear: 'center' },
-  { clave: 'id', titulo: 'ID Registro', ancho: 140, alinear: 'center' },
   { clave: 'nombre_anfitrion', titulo: 'Nombre del anfitrión', ancho: 230, alinear: 'left' },
   { clave: 'telefono', titulo: 'Teléfono o WhatsApp', ancho: 175, alinear: 'center' },
   { clave: 'direccion', titulo: 'Dirección del alojamiento', ancho: 300, alinear: 'left' },
@@ -41,9 +40,12 @@ function onOpen() {
 
 function limpiarYFormatearHoja() {
   var ss = SpreadsheetApp.getActiveSpreadsheet();
-  var sheet = ss.getSheetByName(HOJA_NOMBRE);
-  if (!sheet) {
-    sheet = ss.insertSheet(HOJA_NOMBRE);
+  var sheet = ss.getSheetByName(HOJA_NOMBRE) || ss.getActiveSheet();
+
+  // Si la primera fila ya contiene datos (no es el título 'Marca temporal'), insertar una fila arriba automáticamente
+  var valorA1 = sheet.getRange(1, 1).getValue();
+  if (valorA1 && valorA1.toString() !== COLUMNAS[0].titulo) {
+    sheet.insertRowBefore(1);
   }
 
   // Congelar la primera fila
@@ -184,7 +186,6 @@ function mapearRegistroAFila(r) {
 
   return [
     marcaTemporal,
-    (r.id || '').toString(),
     (r.nombre_anfitrion || '').toString().trim(),
     telefono,
     (r.direccion || '').toString().trim(),
@@ -202,13 +203,11 @@ function aplicarFormatoFilas(sheet, filaInicio, cantidad) {
     .setFontSize(10)
     .setVerticalAlignment('middle');
 
-  // Ajuste de texto para dirección (col 5) y notas (col 9)
-  sheet.getRange(filaInicio, 5, cantidad, 1).setWrap(true);
-  sheet.getRange(filaInicio, 9, cantidad, 1).setWrap(true);
-
-  // Alineaciones específicas por columna
   for (var c = 0; c < COLUMNAS.length; c++) {
     sheet.getRange(filaInicio, c + 1, cantidad, 1).setHorizontalAlignment(COLUMNAS[c].alinear);
+    if (COLUMNAS[c].clave === 'direccion' || COLUMNAS[c].clave === 'notas') {
+      sheet.getRange(filaInicio, c + 1, cantidad, 1).setWrap(true);
+    }
   }
 }
 

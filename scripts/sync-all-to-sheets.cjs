@@ -5,8 +5,8 @@
  * Uso:
  *   node scripts/sync-all-to-sheets.cjs
  * 
- * O pasando URLs directamente:
- *   node scripts/sync-all-to-sheets.cjs --servidores="URL_1" --presentacion="URL_2" --valijas="URL_3"
+ * O pasando URLs directamente por consola:
+ *   node scripts/sync-all-to-sheets.cjs --servidores="URL_1" --presentacion="URL_2" --hospedaje="URL_3"
  */
 
 const { createClient } = require('@supabase/supabase-js');
@@ -53,7 +53,7 @@ async function main() {
 
   const urlServidores = getArg('servidores');
   const urlPresentacion = getArg('presentacion');
-  const urlValijas = getArg('valijas');
+  const urlHospedaje = getArg('hospedaje');
 
   // 1. Sincronizar Servidores
   if (urlServidores) {
@@ -91,22 +91,22 @@ async function main() {
     console.log('[Info] Para sincronizar Presentación de Niños, proporcione --presentacion="URL_WEBHOOK"');
   }
 
-  // 3. Sincronizar Entrega de Valijas
-  if (urlValijas) {
-    console.log('Consultando entregas en Supabase...');
-    const { data: entregas, error: errEntregas } = await supabase
-      .from('entregas')
-      .select('*, cdps(*)')
+  // 3. Sincronizar Hospedaje Revival 2026
+  if (urlHospedaje) {
+    console.log('Consultando hospedaje_revival_2026 en Supabase...');
+    const { data: hospedajes, error: errHospedajes } = await supabase
+      .from('hospedaje_revival_2026')
+      .select('*')
       .order('created_at', { ascending: true });
 
-    if (errEntregas) {
-      console.error('Error consultando entregas de valijas:', errEntregas.message);
+    if (errHospedajes) {
+      console.error('Error consultando hospedajes:', errHospedajes.message);
     } else {
-      console.log(`Se obtuvieron ${entregas.length} registros de entregas de valijas.`);
-      await postBatch(urlValijas, entregas, 'Entrega de Valijas');
+      console.log(`Se obtuvieron ${hospedajes.length} registros de hospedaje.`);
+      await postBatch(urlHospedaje, hospedajes, 'Hospedaje Revival 2026');
     }
   } else {
-    console.log('[Info] Para sincronizar Entrega de Valijas, proporcione --valijas="URL_WEBHOOK"');
+    console.log('[Info] Para sincronizar Hospedaje Revival, proporcione --hospedaje="URL_WEBHOOK"');
   }
 
   console.log('Proceso de sincronización finalizado.');

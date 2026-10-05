@@ -1,6 +1,7 @@
 interface Env {
   GOOGLE_SHEETS_SERVIDORES_URL?: string;
   GOOGLE_SHEETS_PRESENTACION_URL?: string;
+  GOOGLE_SHEETS_HOSPEDAJE_URL?: string;
   GOOGLE_SHEETS_VALIJAS_URL?: string;
 }
 
@@ -20,7 +21,7 @@ export const onRequestOptions: PagesFunction = async () => {
 export const onRequestPost: PagesFunction<Env> = async (context) => {
   try {
     const body = (await context.request.json()) as {
-      target: 'servidores' | 'presentacion' | 'valijas';
+      target: 'servidores' | 'presentacion' | 'hospedaje' | 'valijas';
       records: unknown[];
     };
 
@@ -38,9 +39,15 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
     }
 
     let webhookUrl: string | undefined;
-    if (body.target === 'servidores') webhookUrl = context.env.GOOGLE_SHEETS_SERVIDORES_URL;
-    else if (body.target === 'presentacion') webhookUrl = context.env.GOOGLE_SHEETS_PRESENTACION_URL;
-    else if (body.target === 'valijas') webhookUrl = context.env.GOOGLE_SHEETS_VALIJAS_URL;
+    if (body.target === 'servidores') {
+      webhookUrl = context.env.GOOGLE_SHEETS_SERVIDORES_URL;
+    } else if (body.target === 'presentacion') {
+      webhookUrl = context.env.GOOGLE_SHEETS_PRESENTACION_URL;
+    } else if (body.target === 'hospedaje') {
+      webhookUrl = context.env.GOOGLE_SHEETS_HOSPEDAJE_URL;
+    } else if (body.target === 'valijas') {
+      webhookUrl = context.env.GOOGLE_SHEETS_VALIJAS_URL;
+    }
 
     if (!webhookUrl) {
       return new Response(

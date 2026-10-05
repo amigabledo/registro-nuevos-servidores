@@ -84,9 +84,10 @@ El flujo definitivo de despliegue para este proyecto es:
 ## 4. Historial reciente de actualizaciones
 
 - **05/10/2026**:
-  - Integración con Google Sheets mediante Google Apps Script para Inscripción de Servidores (`scripts/sheets-servidores.js`), Presentación de Niños (`scripts/sheets-presentacion-ninos.js`) y Entrega de Valijas (`scripts/sheets-entrega-valijas.js`).
-  - Implementación de Cloudflare Pages Functions en `functions/api/` (`servidores.ts`, `presentacion.ts`, `valijas.ts`, `sync.ts`) para despacho a variables de entorno de webhooks.
-  - Generación de sincronizador por lotes (`scripts/sync-all-to-sheets.cjs`) para transferir respuestas históricas y en tiempo real.
+  - Integración con Google Sheets mediante Google Apps Script para Inscripción de Servidores (`scripts/sheets-servidores.js`), Presentación de Niños (`scripts/sheets-presentacion-ninos.js`) y Hospedaje Revival (`scripts/sheets-hospedaje-revival.js`).
+  - Implementación de Cloudflare Pages Functions en `functions/api/` (`servidores.ts`, `presentacion.ts`, `hospedaje.ts`, `sync.ts`) para despacho a variables de entorno de webhooks.
+  - Sincronización histórica exitosa de 77 registros de servidores hacia Google Sheets con fecha oficial de República Dominicana y formato tabular.
+  - Generación de sincronizador por lotes (`scripts/sync-all-to-sheets.cjs`) para transferir respuestas históricas de cualquiera de los 3 formularios mediante comandos directos.
 - **04/10/2026**:
   - Eliminación de la obligatoriedad del correo electrónico en el formulario de inscripción, pasando a ser un campo opcional.
   - Eliminación de la obligatoriedad de la fecha de bautismo para postulantes bautizados en aguas.

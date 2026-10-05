@@ -135,6 +135,13 @@ export async function registrarServidor(
       // @ts-expect-error compatibilidad con cliente genérico
       .insert([nuevoRegistro]);
     if (!error) {
+      try {
+        fetch('/api/servidores', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(nuevoRegistro),
+        }).catch((e) => console.warn('Aviso de envío a Google Sheets:', e));
+      } catch (ignore) {}
       return { success: true };
     }
   } catch {

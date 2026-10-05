@@ -36,6 +36,7 @@ function onOpen() {
   var ui = SpreadsheetApp.getUi();
   ui.createMenu('Monte de Dios')
     .addItem('Inicializar y formatear encabezados', 'limpiarYFormatearHoja')
+    .addItem('Corregir columnas desalineadas', 'corregirFilasDesalineadas')
     .addItem('Comprobar estado del webhook', 'verificarEstado')
     .addToUi();
 }
@@ -131,8 +132,40 @@ function asegurarEncabezadosYFormato(sheet) {
 
   var filasTotales = sheet.getLastRow();
   if (filasTotales >= FILA_ENCABEZADOS + 1) {
+    // Corregir automáticamente filas desalineadas (donde el estado cayó en Notas)
+    for (var f = FILA_ENCABEZADOS + 1; f <= filasTotales; f++) {
+      var valI = sheet.getRange(f, 9).getValue().toString().trim();
+      var valJ = sheet.getRange(f, 10).getValue().toString().trim();
+      var esEstado = (valJ === 'Pendiente' || valJ === 'Confirmado' || valJ === 'Presentado' || valJ === 'Cancelado');
+      if (!valI && esEstado) {
+        sheet.getRange(f, 9).setValue(valJ);
+        sheet.getRange(f, 10).setValue('');
+      }
+    }
+
     aplicarFormatoFilas(sheet, FILA_ENCABEZADOS + 1, filasTotales - FILA_ENCABEZADOS);
   }
+}
+
+function corregirFilasDesalineadas() {
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var sheet = ss.getSheetByName(HOJA_NOMBRE) || ss.getActiveSheet();
+  var ultimaFila = sheet.getLastRow();
+  var filasCorregidas = 0;
+  var filaInicio = (sheet.getRange(1, 1).getValue().toString().trim() === TITULO_LINEA_1) ? (FILA_ENCABEZADOS + 1) : 2;
+
+  for (var f = filaInicio; f <= ultimaFila; f++) {
+    var valI = sheet.getRange(f, 9).getValue().toString().trim();
+    var valJ = sheet.getRange(f, 10).getValue().toString().trim();
+    var esEstado = (valJ === 'Pendiente' || valJ === 'Confirmado' || valJ === 'Presentado' || valJ === 'Cancelado');
+    if (!valI && esEstado) {
+      sheet.getRange(f, 9).setValue(valJ);
+      sheet.getRange(f, 10).setValue('');
+      filasCorregidas++;
+    }
+  }
+
+  SpreadsheetApp.getUi().alert('Proceso completado: se corrigieron ' + filasCorregidas + ' fila(s) desalineadas.');
 }
 
 function doPost(e) {

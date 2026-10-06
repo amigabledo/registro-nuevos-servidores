@@ -83,6 +83,12 @@ El flujo definitivo de despliegue para este proyecto es:
 
 ## 4. Historial reciente de actualizaciones
 
+- **06/10/2026**:
+  - Reemplazo de la exportación CSV por opciones directas de exportación en Excel (.xlsx) y en formato PDF (.pdf).
+  - Eliminación del selector de filtro por estado y sustitución por filtro por mentor ("Todos los mentores", "Sin mentor", "Con mentor") para filtrar inmediatamente a postulantes sin mentor.
+  - Filtro optimizado por ministerio escogido ("Todos los ministerios", "Ujieres", "Seguridad", "Escuela dominical").
+  - Visualización del mentor asignado o etiqueta "Sin mentor" directamente en la tabla principal de registros.
+  - Actualización del código de Google Apps Script (`scripts/sheets-servidores.js`) incorporando la función de reparación y sincronización autónoma desde la base de datos de Supabase para corregir columnas desalineadas y campos vacíos.
 - **05/10/2026**:
   - Corrección de alineación del banner institucional de tres filas en Google Sheets a la izquierda, garantizando que los títulos sean 100% visibles inmediatamente al abrir la hoja en cualquier pantalla o resolución sin requerir desplazamiento horizontal.
   - Formato corporativo para exportación a Excel (.xlsx) con alturas de fila generosas (40 px, 36 px, 32 px para el membrete, 44 px para encabezados y 28 px para filas de datos) y tipografía Calibri tamaño 12.

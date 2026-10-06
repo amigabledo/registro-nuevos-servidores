@@ -2,7 +2,8 @@ import React, { useState, useMemo } from 'react';
 import type { ServidorRegistro, AreaServicio, EstadoRegistro } from '@/types';
 import { DetalleServidorModal } from './DetalleServidorModal';
 import { ServidorCardMovil } from './ServidorCardMovil';
-import { Search, Upload, Phone, Eye } from 'lucide-react';
+import { Search, Phone, Eye, FileSpreadsheet, FileText } from 'lucide-react';
+import { exportarExcel, exportarPDF } from '@/lib/exportUtils';
 
 interface Props {
   servidores: ServidorRegistro[];
@@ -12,7 +13,7 @@ interface Props {
 export const TablaServidores: React.FC<Props> = ({ servidores, onRefresh }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [areaFilter, setAreaFilter] = useState<string>('todos');
-  const [estadoFilter, setEstadoFilter] = useState<string>('todos');
+  const [mentorFilter, setMentorFilter] = useState<string>('todos');
   const [selectedServidor, setSelectedServidor] = useState<ServidorRegistro | null>(null);
 
   const filteredServidores = useMemo(() => {
@@ -23,60 +24,15 @@ export const TablaServidores: React.FC<Props> = ({ servidores, onRefresh }) => {
           .includes(searchTerm.toLowerCase());
 
       const matchArea = areaFilter === 'todos' || s.area_servicio === areaFilter;
-      const matchEstado = estadoFilter === 'todos' || s.estado === estadoFilter;
 
-      return matchSearch && matchArea && matchEstado;
+      const matchMentor =
+        mentorFilter === 'todos' ||
+        (mentorFilter === 'sin_mentor' && !s.tiene_mentor) ||
+        (mentorFilter === 'con_mentor' && s.tiene_mentor);
+
+      return matchSearch && matchArea && matchMentor;
     });
-  }, [servidores, searchTerm, areaFilter, estadoFilter]);
-
-  const exportarCSV = () => {
-    const headers = [
-      'Nombre',
-      'Apellido',
-      'Teléfono',
-      'Correo',
-      'Área de servicio',
-      'Escuela nuevos creyentes',
-      'Bautizado',
-      'Fecha bautismo',
-      'Retiro liberación',
-      'Fecha retiro',
-      'Tiene mentor',
-      'Nombre mentor',
-      'Casa de paz',
-      'Estado',
-      'Notas',
-      'Fecha registro',
-    ];
-
-    const rows = filteredServidores.map((s) => [
-      `"${s.nombre}"`,
-      `"${s.apellido}"`,
-      `"${s.telefono}"`,
-      `"${s.correo || ''}"`,
-      `"${s.area_servicio}"`,
-      `"${s.escuela_nuevos_creyentes}"`,
-      `"${s.bautizado ? 'Sí' : 'No'}"`,
-      `"${s.fecha_bautismo || ''}"`,
-      `"${s.retiro_liberacion ? 'Sí' : 'No'}"`,
-      `"${s.fecha_retiro || ''}"`,
-      `"${s.tiene_mentor ? 'Sí' : 'No'}"`,
-      `"${s.nombre_mentor || ''}"`,
-      `"${s.asiste_casa_paz ? 'Sí' : 'No'}"`,
-      `"${s.estado}"`,
-      `"${(s.notas_servidor || '').replace(/"/g, '""')}"`,
-      `"${new Date(s.created_at).toLocaleDateString()}"`,
-    ]);
-
-    const csvContent = 'data:text/csv;charset=utf-8,\uFEFF' + [headers.join(','), ...rows.map((r) => r.join(','))].join('\n');
-    const encodedUri = encodeURI(csvContent);
-    const link = document.createElement('a');
-    link.setAttribute('href', encodedUri);
-    link.setAttribute('download', `servidores_${new Date().toISOString().slice(0, 10)}.csv`);
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  };
+  }, [servidores, searchTerm, areaFilter, mentorFilter]);
 
   const formatArea = (area: AreaServicio) => {
     if (area === 'ujieres') return 'Ujieres';
@@ -121,44 +77,55 @@ export const TablaServidores: React.FC<Props> = ({ servidores, onRefresh }) => {
         </div>
 
         <div className="flex items-center gap-2 flex-wrap">
+          {/* Filtro por ministerio escogido */}
           <select
             value={areaFilter}
             onChange={(e) => setAreaFilter(e.target.value)}
-            aria-label="Filtrar por área de servicio"
+            aria-label="Filtrar por ministerio escogido"
             className="px-3 py-2 rounded-xl bg-white border border-slate-200 text-xs text-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-500/30"
           >
-            <option value="todos">Todas las áreas</option>
+            <option value="todos">Todos los ministerios</option>
             <option value="ujieres">Ujieres</option>
             <option value="seguridad">Seguridad</option>
             <option value="escuela_dominical">Escuela dominical</option>
           </select>
 
+          {/* Filtro por mentor (reemplaza el filtro de estados) */}
           <select
-            value={estadoFilter}
-            onChange={(e) => setEstadoFilter(e.target.value)}
-            aria-label="Filtrar por estado de postulación"
+            value={mentorFilter}
+            onChange={(e) => setMentorFilter(e.target.value)}
+            aria-label="Filtrar por mentor"
             className="px-3 py-2 rounded-xl bg-white border border-slate-200 text-xs text-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-500/30"
           >
-            <option value="todos">Todos los estados</option>
-            <option value="pendiente">Pendiente</option>
-            <option value="en_revision">En revisión</option>
-            <option value="contactado">Contactado</option>
-            <option value="aprobado">Aprobado</option>
+            <option value="todos">Todos los mentores</option>
+            <option value="sin_mentor">Sin mentor</option>
+            <option value="con_mentor">Con mentor</option>
           </select>
+
+          {/* Botones de exportación Excel y PDF */}
+          <button
+            type="button"
+            onClick={() => exportarExcel(filteredServidores)}
+            className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl border border-emerald-200 bg-emerald-50 text-xs font-semibold text-emerald-700 hover:bg-emerald-100 transition-colors shadow-xs"
+            title="Exportar archivo de Excel"
+          >
+            <FileSpreadsheet className="w-3.5 h-3.5 text-emerald-600" />
+            <span>Exportar Excel</span>
+          </button>
 
           <button
             type="button"
-            onClick={exportarCSV}
-            className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl border border-slate-200 bg-white text-xs font-semibold text-slate-700 hover:bg-slate-50 transition-colors shadow-xs"
-            title="Exportar archivo CSV con flecha hacia arriba"
+            onClick={() => exportarPDF(filteredServidores)}
+            className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl border border-rose-200 bg-rose-50 text-xs font-semibold text-rose-700 hover:bg-rose-100 transition-colors shadow-xs"
+            title="Exportar documento PDF"
           >
-            <Upload className="w-3.5 h-3.5 text-blue-600" />
-            <span>Exportar CSV</span>
+            <FileText className="w-3.5 h-3.5 text-rose-600" />
+            <span>Exportar PDF</span>
           </button>
         </div>
       </div>
 
-      {/* Vista móvil para teléfonos (tarjetas completas sin desbordes horizontales) */}
+      {/* Vista móvil para teléfonos */}
       <div className="sm:hidden space-y-3">
         {filteredServidores.length === 0 ? (
           <div className="bg-white rounded-2xl border border-slate-200/80 p-8 text-center text-slate-400 text-xs shadow-xs">
@@ -185,7 +152,8 @@ export const TablaServidores: React.FC<Props> = ({ servidores, onRefresh }) => {
               <tr className="bg-slate-50/80 border-b border-slate-200 text-slate-500 font-semibold uppercase tracking-wider text-[11px]">
                 <th className="py-3 px-4">Postulante</th>
                 <th className="py-3 px-4">Contacto</th>
-                <th className="py-3 px-4">Área deseada</th>
+                <th className="py-3 px-4">Ministerio</th>
+                <th className="py-3 px-4">Mentor</th>
                 <th className="py-3 px-4">Discipulado</th>
                 <th className="py-3 px-4">Estado</th>
                 <th className="py-3 px-4 text-right">Acciones</th>
@@ -194,7 +162,7 @@ export const TablaServidores: React.FC<Props> = ({ servidores, onRefresh }) => {
             <tbody className="divide-y divide-slate-100">
               {filteredServidores.length === 0 ? (
                 <tr>
-                  <td colSpan={6} className="py-8 text-center text-slate-400">
+                  <td colSpan={7} className="py-8 text-center text-slate-400">
                     No se encontraron registros que coincidan con la búsqueda.
                   </td>
                 </tr>
@@ -216,6 +184,22 @@ export const TablaServidores: React.FC<Props> = ({ servidores, onRefresh }) => {
                       <span className="font-medium text-slate-800">{formatArea(s.area_servicio)}</span>
                     </td>
                     <td className="py-3 px-4">
+                      {s.tiene_mentor ? (
+                        <div>
+                          <span className="inline-block px-1.5 py-0.5 rounded-md bg-blue-50 text-blue-700 text-[10px] font-semibold mb-0.5">
+                            Tiene mentor
+                          </span>
+                          <span className="text-[11px] text-slate-600 block truncate max-w-[140px]" title={s.nombre_mentor || ''}>
+                            {s.nombre_mentor || 'Asignado'}
+                          </span>
+                        </div>
+                      ) : (
+                        <span className="inline-block px-1.5 py-0.5 rounded-md bg-slate-100 text-slate-600 text-[10px] font-medium">
+                          Sin mentor
+                        </span>
+                      )}
+                    </td>
+                    <td className="py-3 px-4">
                       <div className="flex items-center gap-1.5 flex-wrap">
                         {s.bautizado && (
                           <span className="px-1.5 py-0.5 rounded-md bg-blue-50 text-blue-700 text-[10px]">
@@ -230,6 +214,11 @@ export const TablaServidores: React.FC<Props> = ({ servidores, onRefresh }) => {
                         {s.escuela_nuevos_creyentes === 'si' && (
                           <span className="px-1.5 py-0.5 rounded-md bg-emerald-50 text-emerald-700 text-[10px]">
                             Escuela
+                          </span>
+                        )}
+                        {s.asiste_casa_paz && (
+                          <span className="px-1.5 py-0.5 rounded-md bg-purple-50 text-purple-700 text-[10px]">
+                            Casa de paz
                           </span>
                         )}
                       </div>

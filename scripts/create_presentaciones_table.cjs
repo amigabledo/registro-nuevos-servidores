@@ -73,8 +73,14 @@ grant select, insert, update, delete on public.presentaciones_ninos to authentic
 grant select, insert, update, delete on public.presentaciones_ninos to service_role;
 `;
 
+const connectionString = process.env.DATABASE_URL || process.env.DB_CONNECTION_STRING;
+if (!connectionString) {
+  console.error('Error: Debe configurar la variable de entorno DATABASE_URL o DB_CONNECTION_STRING.');
+  process.exit(1);
+}
+
 const client = new Client({
-  connectionString: 'postgresql://postgres.fnwtfjwysitrpnpjsuoy:Fidelidad2025@aws-1-us-west-2.pooler.supabase.com:6543/postgres'
+  connectionString,
 });
 
 async function main() {

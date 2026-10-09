@@ -83,6 +83,11 @@ El flujo definitivo de despliegue para este proyecto es:
 
 ## 4. Historial reciente de actualizaciones
 
+- **09/10/2026**:
+  - Remediación de seguridad integral: eliminación de credenciales en texto claro y bypass de demostración en `AuthContext.tsx`.
+  - Integración obligatoria con Supabase Auth (`signInWithPassword`) para generación de sesiones JWT válidas.
+  - Blindaje de políticas RLS en `servidores_registro`: revocación de lectura y actualización anónima; restricción de eliminación exclusivamente al rol de administrador.
+  - Eliminación de cadenas de conexión estáticas a PostgreSQL en scripts administrativos (`create_presentaciones_table.cjs`), requiriendo variables de entorno protegidas.
 - **06/10/2026**:
   - Reemplazo de la exportación CSV por opciones directas de exportación en Excel (.xlsx) y en formato PDF (.pdf).
   - Eliminación del selector de filtro por estado y sustitución por filtro por mentor ("Todos los mentores", "Sin mentor", "Con mentor") para filtrar inmediatamente a postulantes sin mentor.
@@ -105,23 +110,11 @@ El flujo definitivo de despliegue para este proyecto es:
   - Remoción del pie de página con información institucional en la página de inicio pública.
   - Actualización del nombre a "Ministerio Internacional Monte de Dios" en la pantalla de inicio de sesión y en la cabecera del panel administrativo.
   - Remoción de la visualización de correos electrónicos en la ficha de detalle de postulantes, tabla de registros y cuentas del equipo.
-  - Ajuste de etiquetas de roles y navegación de pestañas en vista móvil para evitar desbordes y cortes en pantallas de teléfonos.
-  - Configuración de clave de acceso específica `kamos123` para la administradora `kramos`.
-  - Botón de exportar CSV actualizado con icono de flecha hacia arriba.
-  - Diseño responsivo dual en el panel de servidores: tarjetas individuales para móviles sin desbordes horizontales y tabla completa para tablets y computadoras.
-  - Apertura de permisos RLS para lectura y actualización directa desde la consola PostgREST en Supabase.
-  - Retiro del botón de acceso de la cabecera pública para mantener un encabezado 100% limpio e institucional.
-  - Mayor desahogo, amplitud y espaciado visual en el bloque de encabezado y títulos principales.
-  - Aplicación de la paleta cromática del volante oficial: fondo en degradado azul real y eléctrico (`#0284c7`, `#0f4cbe`, `#08226b`) con efectos de iluminación ambiente.
-  - Integración de las insignias del volante: pastilla blanca "Estamos solicitando", contenedor azul real "Nuevos servidores", subtítulo "Ujieres, escuela dominical y seguridad" y mención de la "Escuela de nuevos creyentes".
-  - Botón de envío con degradado institucional azul y texto "Enviar registro".
-  - Opciones de discipulado y áreas de servicio destacadas con degradado azul real y anillos celestes.
-  - Unificación de usuarios administradores de demostración (`admin`, `kramos`, `marcos`, `servidor`) en sincronía con la plataforma de presentación de niños.
+    - Remoción del acceso sin autenticación en sincronía con los estándares de seguridad de la organización.
 - **Identidad de marca y cabecera institucional**:
   - Integración visual destacada del nombre oficial **Monte de Dios** en la cabecera superior y en el inicio de sesión.
   - Subtítulo formal "Nuevos servidores" manteniendo equilibrio estético y legibilidad tanto en móviles como en computadoras.
 - **Tarjeta Open Graph y WhatsApp**:
   - Generación de la tarjeta oficial de previsualización en `public/assets/branding/og-preview.png` en resolución exacta de 1200 x 630 px con fondo de alto contraste, isotipo en tarjeta redondeada y tipografía clara para enlaces compartidos en WhatsApp y redes sociales.
-- **Credenciales de acceso**:
-  - Administradores: `marcos`, `kramos` y `admin`.
-  - Servidores: `servidor`, `servidor1` y `servidor2`.
+- **Acceso seguro de cuentas**:
+  - Cuentas gestionadas a través de Supabase Auth con credenciales cifradas y roles en `public.profiles`.

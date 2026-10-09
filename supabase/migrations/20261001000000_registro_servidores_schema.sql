@@ -76,11 +76,17 @@ CREATE POLICY "Actualizacion de registros para usuarios autenticados" ON public.
   USING (true)
   WITH CHECK (true);
 
--- Eliminación: exclusiva para usuarios autenticados
+-- Eliminación: exclusiva para administradores
 DROP POLICY IF EXISTS "Eliminacion de registros para usuarios autenticados" ON public.servidores_registro;
-CREATE POLICY "Eliminacion de registros para usuarios autenticados" ON public.servidores_registro
+DROP POLICY IF EXISTS "Eliminacion de registros solo administradores" ON public.servidores_registro;
+CREATE POLICY "Eliminacion de registros solo administradores" ON public.servidores_registro
   FOR DELETE TO authenticated
-  USING (true);
+  USING (
+    EXISTS (
+      SELECT 1 FROM public.profiles
+      WHERE id = auth.uid() AND (role = 'admin' OR role ILIKE '%admin%')
+    )
+  );
 
 -- 4. Concesión explícita de permisos (estándar Supabase Data API desde 30 de octubre)
 GRANT INSERT ON public.servidores_registro TO anon;

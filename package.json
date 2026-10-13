@@ -12,7 +12,7 @@
     "backup:storage": "node scripts/backup_storage.js"
   },
   "dependencies": {
-    "@sentry/react": "^10.73.0",
+    "@sentry/react": "^10.76.2",
     "@supabase/supabase-js": "^2.115.0",
     "canvas-confetti": "^1.9.4",
     "exceljs": "^4.4.0",

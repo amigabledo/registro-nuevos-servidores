@@ -83,6 +83,9 @@ El flujo definitivo de despliegue para este proyecto es:
 
 ## 4. Historial reciente de actualizaciones
 
+- **13/10/2026**:
+  - Exportación de listado consolidado histórico de nuevos servidores en formato Excel (.xlsx) de 3 hojas de cálculo y entrega por correo electrónico a través de la API de Resend (Amigable.do).
+  - Sincronización del script de Google Sheets para presentación de niños (`scripts/sheets-presentacion-ninos.js`) con eliminación definitiva de columna de estatus y auto-alineación de filas desplazadas.
 - **09/10/2026**:
   - Remediación de seguridad integral: eliminación de credenciales en texto claro y bypass de demostración en `AuthContext.tsx`.
   - Integración obligatoria con Supabase Auth (`signInWithPassword`) para generación de sesiones JWT válidas.
